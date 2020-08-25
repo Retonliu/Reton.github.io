@@ -1,5 +1,7 @@
 ---
 title: git命令
+date: 2020-08-25 16:24:43
+tags: git
 ---
 *git的配置
 pwd当前工作路径
