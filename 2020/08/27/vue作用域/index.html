@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前置知识：new一个vue的时候，把new的时候挂载的el看作是一个根组件，所以new的时候传进去的数据看作是根组件的选项  组件里，模板可以访问到的变量是当前组件data中所定义的propetry。而在父组件的模板里面的子组件，可以访问到的数据就是父组件的prepetry,因为此时子组件相当于父组件的模板的一部分，如果子组件里面的模板想要引用父组件的propetry,则需要在子组件里声明pro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue作用域">
+<meta property="og:url" content="http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前置知识：new一个vue的时候，把new的时候挂载的el看作是一个根组件，所以new的时候传进去的数据看作是根组件的选项  组件里，模板可以访问到的变量是当前组件data中所定义的propetry。而在父组件的模板里面的子组件，可以访问到的数据就是父组件的prepetry,因为此时子组件相当于父组件的模板的一部分，如果子组件里面的模板想要引用父组件的propetry,则需要在子组件里声明pro">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-27T06:16:00.000Z">
+<meta property="article:modified_time" content="2020-09-10T08:49:55.737Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vue作用域</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2020/09/06/vue%E8%B7%AF%E7%94%B1%E5%88%9D%E6%AD%A5%E7%90%86%E8%A7%A3/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2020/08/25/gitnore/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&text=vue作用域"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&is_video=false&description=vue作用域"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue作用域&body=Check out this article: http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&name=vue作用域&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&t=vue作用域"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vue作用域
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-08-27T06:16:00.000Z" itemprop="datePublished">2020-08-27</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/vue/" rel="tag">vue</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>前置知识：new一个vue的时候，把new的时候挂载的el看作是一个根组件，所以new的时候传进去的数据看作是根组件的选项</p>
+</blockquote>
+<p>组件里，模板可以访问到的变量是当前组件data中所定义的propetry。<strong>而在父组件的模板里面的子组件，可以访问到的数据就是父组件的prepetry,因为此时子组件相当于父组件的模板的一部分，如果子组件里面的模板想要引用父组件的propetry,则需要在子组件里声明props。</strong>props中声明得到的变量就可以当作子组件自身data里面的proprtry使用。同时在父组件的模板里面需要绑定props所需要的数据。绑定分为静态绑定和动态绑定两种方法。</p>
+<ul>
+<li>静态绑定:<br>&lt;blog-component title=”vue作用域”&gt;&lt;/button-component&gt;<br>静态绑定不需要使用v-bind，直接声明即可。注意声明的内容不可以是变量。</li>
+<li>动态绑定:<br>&lt;blog-component :title=”post.title”&gt;&lt;/button-component&gt;<br>post是blog-component所在域的父组件的propetry。</li>
+</ul>
+<blockquote>
+<p>注意，<strong>组件访问的数据应该是其所在模板的父组件。</strong>如果一个组件不是当前模板的根，即使在该组件中声明了插槽，放入插槽的子组件也无法访问该组件的内容。</p>
+</blockquote>
+<p>例如声明了一个子组件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&#39;son-component&#39;, &#123;</span><br><span class="line">    props: [&#39;msg&#39;],</span><br><span class="line">    template: </span><br><span class="line">            &#96;</span><br><span class="line">            &lt;span&gt;&#123;&#123; msg &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">            &#96;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>以及一个父组件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&#39;father-component&#39;, &#123;</span><br><span class="line">    data: function()&#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            msg: &quot;父组件&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    template: &#96;</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;slot&gt;&lt;&#x2F;slot&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">        &#96;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>最后声明根组件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Vue(&#123; el: &#39;#wrap&#39;,  &#x2F;&#x2F;new的时候的data才是父级组件的</span><br><span class="line">    data: function() &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在html中声明如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;wrap&quot;&gt;</span><br><span class="line">            &lt;father-component&gt;</span><br><span class="line">                &lt;son-component :msg&#x3D;&quot;msg&quot;&gt;&lt;&#x2F;son-component&gt;</span><br><span class="line">            &lt;&#x2F;father-component&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>此时son-component是无法访问到msg的，会出现msg is not defined的报错。而如果在根组件的data中声明<br>    msg: “根组件”<br>则可以在界面中看到msg变为根组件字符串。<strong>所以除非把son-component放在father-component的模板当中，不然son-component是没办法访问到father-component的msg变量的。</strong>虽然在代码中看起来father-component好像是son-component的父组件，但是此时son-component需要拿的数据应该来自所处模板的根组件（app）。<strong>除了data之外，methods等其他选项也是同理。</strong></p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/vue作用域.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&text=vue作用域"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&is_video=false&description=vue作用域"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=vue作用域&body=Check out this article: http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&title=vue作用域"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&name=vue作用域&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/08/27/vue%E4%BD%9C%E7%94%A8%E5%9F%9F/&t=vue作用域"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

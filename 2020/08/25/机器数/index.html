@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="#机器数在计算机内部可分为无符号数和有符号数无符号数：没有正负之分，所有的数都是正数有符号数：有正负之分，在符号位用0表示正数，用1表示负数。    无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。比如 如果要存的寄存器是8位的,要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。 有符号">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器数">
+<meta property="og:url" content="http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="#机器数在计算机内部可分为无符号数和有符号数无符号数：没有正负之分，所有的数都是正数有符号数：有正负之分，在符号位用0表示正数，用1表示负数。    无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。比如 如果要存的寄存器是8位的,要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。 有符号">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/2.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/3.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/4.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/5.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/6.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/7.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/8.png">
+<meta property="article:published_time" content="2020-08-25T08:24:43.000Z">
+<meta property="article:modified_time" content="2020-09-27T02:54:15.614Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="计算机系统">
+<meta property="article:tag" content="计算机组成原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>机器数</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2020/08/25/%E6%98%BE%E7%A4%BA%E5%99%A8%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&text=机器数"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&is_video=false&description=机器数"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=机器数&body=Check out this article: http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&name=机器数&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&t=机器数"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        机器数
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-08-25T08:24:43.000Z" itemprop="datePublished">2020-08-25</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F/" rel="tag">计算机系统</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/" rel="tag">计算机组成原理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>#机器数在计算机内部可分为无符号数和有符号数<br>无符号数：没有正负之分，所有的数都是正数<br>有符号数：有正负之分，在符号位用0表示正数，用1表示负数。  </p>
+<ul>
+<li>无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。<br>比如 如果要存的寄存器是8位的,<img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png"><br>要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。</li>
+<li>有符号数的存储需要在硬件中把位数中的最高位用于表示正负（0，1），<strong>注意符号数是不影响数据绝对值大小的</strong>，其余的位用于表示数的绝对值大小。 平常我们接触的数据又可以分为整数和小数两种方式。所以需要对小数点的位置进行处理。<br>存储小数的时候，小数点表示在符号位的后一位。如下图所示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/2.png"><br>存储整数的时候，小数点放在数值的最后一位。如下图所示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/3.png"></li>
+<li>*注意实际上在寄存器中是没有专门用一个位数来存储小数点的，这只是一种约定的表示方法**  </li>
+</ul>
+<p>##机器数表示方式</p>
+<ul>
+<li><p>原码 ：在上面的存储过程种运用到了把符号数值化的方法，也叫做原码表示法。  </p>
+<blockquote>
+<ul>
+<li>小数原码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/4.png"></li>
+</ul>
+</blockquote>
+</li>
+<li><p>*其中负数表示 1-x 即为在小数点前面加上一个1。因为小数的都是小于1的**<br>x是真值。比如，如果x是+0.1010，则它的原码表示法为 0.1010。如果x是 -0.1010,则它的原码表示法为</p>
+<blockquote>
+<p>1 - x = 1 - (-0.1010) = 1.1010,也就是在把小数点前面的数改为 1。  </p>
+<ul>
+<li>整数原码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/5.png"></li>
+</ul>
+</blockquote>
+</li>
+<li><p>*其中2^n是表示在x的最高位的前面加上一个 1**<br>x是真值。比如，如果x是+1010，则它的原码表示法为 0,1010。如果x是 -0101，则它的原码表示法为<br>2^4 - （-0101） = 1,1010。  </p>
+</li>
+<li><p>整数和小数的区别就是用逗号或小数点隔开符号位，注意无论是逗号还是符号都是没有在硬件中表示出来的。*<br>但是用原码表示也是有问题的，在进行算术运算的时候，如果是一个正数加上一个负数实际上进行的是减法运算，这样就会使得算术运算变得麻烦，所以需要引进另一种表示方式，来使得减法变为加法，即使得计算机只需要进行加法一种运算。</p>
+</li>
+<li><p>补码<br>在讲补码的表达式之前，先来讲一下补码的由来。从时钟的概念来引入，假设现在是0点，那么要到达3点有两种方法，第一种是按照顺时针绕，走3个格即+3，第二种方法按照逆时针绕，走9个格即-9（反方向用减）。所以在这里+3和-9就是等价的。称+3是-9以12为模的补数。一个负数加上“模”就等于它的补数（它们的绝对值之和就等于模数）。补数引入到计算机中就得到了补码的概念，机器数在硬件中的存储也是类似的，存储空间的位数是给定的，比如给定一个8位的寄存器，那么如果要存储的数值超过8位，超出的数位就会丢失，跟时钟一个道理，超过12，超出的就会没了。假设计算-1011和+0101的补码，通过分别加上模数10000可得补数分别为+0101，+0101（高位丢掉），可以看出正数补码等于原码，由此引出一下补码定义：</p>
+<blockquote>
+<ul>
+<li>小数补码：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/6.png"><br>正数补码等于原码。所以看一下负数的补码，若x = -0.1100000, 则其补码为2 + （-0.1100000） = 10.0000000 - 0.1100000 = 1.0100000</li>
+<li>整数补码：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/7.png"><br>正数补码等于原码。看一下负数的补码，若x = -1100，原码为：1,1100则其补码为<br>2^（4+1）+ （-1100） = 100000 - 1100 = 1,0100<br>但是看得出来通过公式来计算补码太过于麻烦。观察求补码的过程可以发现，模数都是一个1后面带着一串0，以上面的例子来说，可以发现100000 - 1100 = 11111 - 1100 + 1， 11111 - 1100的过程可以看出来每一位相减的时候，1减去0等到1， 1减去1等于0, 等于对1100每一位都进行取反，最后再加上1。所以可以总结出求补码的快捷方式:<strong>对于负数的补码，将负数的原码除符号位外其他全部位数取反然后加上一即可得到负数的补码</strong>。  </li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<p>*反码</p>
+<blockquote>
+<ul>
+<li>小数反码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/8.png"><br>0的机器数<br>0的机器数是特殊的，+0的原码为0.0000，-0的原码为1.000,而+0和-0的补码均为0.0000.</li>
+</ul>
+</blockquote>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/机器数.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&text=机器数"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&is_video=false&description=机器数"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=机器数&body=Check out this article: http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&title=机器数"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&name=机器数&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/&t=机器数"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
