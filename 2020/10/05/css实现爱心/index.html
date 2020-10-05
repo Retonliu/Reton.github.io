@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="实现爱心桃的基本思路就是先定义一个矩形父元素作为容器，然后左上角和右上角各自放置一个圆形，注意两个圆形之间要有重叠部分，然后在矩形容器中心放置一个正方形，正方形使用变形效果实现翻转45度。三个图形重叠即可实现一个爱心。 html代码如下: 12345&lt;div class&#x3D;&quot;praise&quot;&gt;    &lt;div class&#x3D;&quot;disc1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css实现爱心桃">
+<meta property="og:url" content="http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="实现爱心桃的基本思路就是先定义一个矩形父元素作为容器，然后左上角和右上角各自放置一个圆形，注意两个圆形之间要有重叠部分，然后在矩形容器中心放置一个正方形，正方形使用变形效果实现翻转45度。三个图形重叠即可实现一个爱心。 html代码如下: 12345&lt;div class&#x3D;&quot;praise&quot;&gt;    &lt;div class&#x3D;&quot;disc1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/1.png">
+<meta property="article:published_time" content="2020-10-05T13:43:00.000Z">
+<meta property="article:modified_time" content="2020-10-05T13:55:44.946Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="css">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>css实现爱心桃</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2020/10/05/flex%E5%B8%83%E5%B1%80/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&text=css实现爱心桃"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&is_video=false&description=css实现爱心桃"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=css实现爱心桃&body=Check out this article: http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&name=css实现爱心桃&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&t=css实现爱心桃"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        css实现爱心桃
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-10-05T13:43:00.000Z" itemprop="datePublished">2020-10-05</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/css/" rel="tag">css</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E5%89%8D%E7%AB%AF/" rel="tag">前端</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>实现爱心桃的基本思路就是先定义一个矩形父元素作为容器，然后左上角和右上角各自放置一个圆形，<em>注意两个圆形之间要有重叠部分</em>，然后在矩形容器中心放置一个正方形，正方形使用变形效果实现翻转45度。三个图形重叠即可实现一个爱心。</p>
+<p>html代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;praise&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;disc1&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;disc2&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;square&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>其中praise是矩形容器，disc1是左上角的圆形，disc2是右上角的圆形，square是放置在中心的正方形。<br>css代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">.praise &#123;</span><br><span class="line">    cursor: pointer;</span><br><span class="line">    position: relative;</span><br><span class="line">    width: 15px;</span><br><span class="line">    height: 15px;</span><br><span class="line">    .disc1 &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        left: 0;</span><br><span class="line">        top: 0;</span><br><span class="line">        width: 9px;</span><br><span class="line">        height: 9px;</span><br><span class="line">        border-radius: 50%;</span><br><span class="line">        background-color: #CD3333;</span><br><span class="line">    &#125;</span><br><span class="line">    .disc2 &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        right: 0;</span><br><span class="line">        top: 0;</span><br><span class="line">        width: 9px;</span><br><span class="line">        height: 9px;</span><br><span class="line">        border-radius: 50%;</span><br><span class="line">        background-color: #CD3333;</span><br><span class="line">    &#125;</span><br><span class="line">    .square &#123;</span><br><span class="line">        position: absolute;</span><br><span class="line">        left: 50%;</span><br><span class="line">        top: 50%;</span><br><span class="line">        width: 9px;</span><br><span class="line">        height: 9px;</span><br><span class="line">        margin-left: -4.5px;</span><br><span class="line">        margin-top: -4.5px;</span><br><span class="line">        transform: rotate(45deg);</span><br><span class="line">        background-color: #CD3333;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先设置矩形容器praise的宽度和高度，我是都设置了15px。</li>
+<li>给disc1设置为绝对定位（注意praise要设置为非静态定位），然后top和left都设置为0。让它处于左上角，同时宽度和高度要略大于praise的二分之一。我是都设置了9px。</li>
+<li>disc2同理，不过是放在右上角。</li>
+<li>正方形square设置为绝对定位，通过调整位置和外边距让正方形处于praise的正中心，然后使用rotate让正方形旋转45度，正好成为爱心向下的那一角。<br>效果如下：<br><img src="/reton.github.io/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/1.png"></li>
+</ol>
+<p><em>旁边的白色是背景颜色</em></p>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/css实现爱心.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&text=css实现爱心桃"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&is_video=false&description=css实现爱心桃"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=css实现爱心桃&body=Check out this article: http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&title=css实现爱心桃"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&name=css实现爱心桃&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/10/05/css%E5%AE%9E%E7%8E%B0%E7%88%B1%E5%BF%83/&t=css实现爱心桃"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a href="/reton.github.io/about/">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
