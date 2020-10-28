@@ -64,7 +64,7 @@ $git stash 可以把目前工作区所作的修改存起来
 $git stash list 查看stash里面存得东西
 $git stash apply 把stash 的状态重新放到工作区中
 $git stash pop 把stash状态放到工作区当中并且把该状态从stash list当中删除
-$git add remotename +githubaddress 建立和github的链接
-$git push remotename -all/branchname 把当前仓库的所有信息都push到远端
+$git remote add remoteName +githubaddress.git 建立和github的链接
+$git push remotename localbranchname 把当前仓库分支localbranchname的所有信息都push到远端分支remotename
 $git fetch remotename branchname 可以把远端的某个分支拉到本地
 $git merge remotename/branchname 将两个有父子关系的merge
