@@ -9,3 +9,4 @@ tags:
 1. for()
 2. for ... in
 3. for ... of
+4. forEach()
