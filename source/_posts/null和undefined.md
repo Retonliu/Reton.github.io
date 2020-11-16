@@ -1,5 +1,5 @@
 ---
-title: js中的两种特殊数据类型：undefined和null
+title: js中的特殊值：undefined和null、NaN
 date: 2020-11-15 09:53
 tags:
 - javascript
@@ -22,9 +22,18 @@ let foo = undefined;
 对null变量使用typeof操作符的时候，会返回object。因为null变量表示的就是一个空对象指针。  
 *null可以作为假值使用。*
 
+3. NaN
+NaN属于Number类型，NaN表示这个不是数值（Not a Number），用于表示本来要返回数值的操作失败了。**任何设计NaN的操作始终返回NaN，
+NaN特殊的地方在于 NaN == NaN 返回false,所以要判断一个数是不是NaN可以使用isNaN函数来判断，isNaN会尝试把参数转为数值，如果这个参数不能转为数值，则isNaN返回true（因为转换不了为数值就转换为NaN）。
+ECM规定任何关系操作符跟NaN比较都会返回false。所以就会出现以下的情况：
+
+NaN < 1  //false
+NaN >= 1 //false
+
 结论：
 * null和undefined的联系：
 当使用 双等于号==操作符比较null和undefined的时候会返回true。两者都可以当作假值使用。
 
 * null和undefined的区别：
 undefined用于表示未初始化变量(非object变量)，而null用于表示空对象指针。
+
