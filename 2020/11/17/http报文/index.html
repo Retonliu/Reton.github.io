@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="HTTP报文可以分为请求报文和响应报文两种。请求报文主要包含：  方法 请求URL HTTP版本 首部 主体  响应报文主要包含：  版本 状态码 原因短语 首部 主体  报文的结构为三个部分： 1. 起始行 请求报文的起始行包括一个请求方法和请求URL以及HTTP版本（这些内容由空格分隔）。  例如 GET &#x2F;test&#x2F;http报文组成.md HTTP&#x2F;1.12. 响应行，包括HTTP版本和状态">
+<meta property="og:type" content="article">
+<meta property="og:title" content="http报文组成部分">
+<meta property="og:url" content="http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="HTTP报文可以分为请求报文和响应报文两种。请求报文主要包含：  方法 请求URL HTTP版本 首部 主体  响应报文主要包含：  版本 状态码 原因短语 首部 主体  报文的结构为三个部分： 1. 起始行 请求报文的起始行包括一个请求方法和请求URL以及HTTP版本（这些内容由空格分隔）。  例如 GET &#x2F;test&#x2F;http报文组成.md HTTP&#x2F;1.12. 响应行，包括HTTP版本和状态">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-11-17T14:44:00.000Z">
+<meta property="article:modified_time" content="2020-11-17T15:05:50.169Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="http">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>http报文组成部分</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2020/11/17/http%E6%96%B9%E6%B3%95/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2020/11/17/%E6%9C%80%E5%A4%A7%E7%9B%B4%E5%BE%84/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&text=http报文组成部分"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&is_video=false&description=http报文组成部分"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=http报文组成部分&body=Check out this article: http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&name=http报文组成部分&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&t=http报文组成部分"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP%E6%8A%A5%E6%96%87%E5%8F%AF%E4%BB%A5%E5%88%86%E4%B8%BA%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E5%92%8C%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E4%B8%A4%E7%A7%8D%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">HTTP报文可以分为请求报文和响应报文两种。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%B5%B7%E5%A7%8B%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text">1. 起始行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%A6%96%E9%83%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2. 首部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%BB%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">3. 主体</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        http报文组成部分
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-11-17T14:44:00.000Z" itemprop="datePublished">2020-11-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/http/" rel="tag">http</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="HTTP报文可以分为请求报文和响应报文两种。"><a href="#HTTP报文可以分为请求报文和响应报文两种。" class="headerlink" title="HTTP报文可以分为请求报文和响应报文两种。"></a>HTTP报文可以分为请求报文和响应报文两种。</h1><p>请求报文主要包含：</p>
+<ul>
+<li><a href>方法</a></li>
+<li>请求URL</li>
+<li>HTTP版本</li>
+<li>首部</li>
+<li>主体</li>
+</ul>
+<p>响应报文主要包含：</p>
+<ul>
+<li>版本</li>
+<li><a target="_blank" rel="noopener" href="https://retonliu.github.io/reton.github.io/2020/11/11/%E7%8A%B6%E6%80%81%E7%A0%81/">状态码</a></li>
+<li>原因短语</li>
+<li>首部</li>
+<li>主体</li>
+</ul>
+<p>报文的结构为三个部分：</p>
+<h2 id="1-起始行"><a href="#1-起始行" class="headerlink" title="1. 起始行"></a>1. 起始行</h2><ol>
+<li>请求报文的起始行包括一个请求方法和请求URL以及HTTP版本（这些内容由空格分隔）。</li>
+</ol>
+<p><em>例如 GET /test/http报文组成.md HTTP/1.1</em><br>2. 响应行，包括HTTP版本和状态码以及原因短语。<em>例如 HTTP1.1 200 OK</em><br><em>版本号说明了应用程序支持的最高HTTP版本</em></p>
+<h2 id="2-首部"><a href="#2-首部" class="headerlink" title="2. 首部"></a>2. 首部</h2><p>用于作为作为报文的附加信息。首部是一些键值对的列表。比如Content-type： xxx。首部主要包含以下分类：  </p>
+<ol>
+<li>通用首部，既可以出现在请求报文也可以出现在响应报文当中。  </li>
+<li>请求首部，提供关于请求报文的附加信息  </li>
+<li>响应首部，提供关于响应报文的附加信息。  </li>
+<li>实体首部，描述主体的长度和内容，或者资源自身  </li>
+<li>拓展首部，规范中没有定义的新首部。<br>一般长首部会分为多行来提高可读性。<h2 id="3-主体"><a href="#3-主体" class="headerlink" title="3. 主体"></a>3. 主体</h2>主体就是HTTP要传输的内容。HTTP可以承载的类型有很多种：图片、视频、HTML文档等。</li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/http报文.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP%E6%8A%A5%E6%96%87%E5%8F%AF%E4%BB%A5%E5%88%86%E4%B8%BA%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E5%92%8C%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87%E4%B8%A4%E7%A7%8D%E3%80%82"><span class="toc-number">1.</span> <span class="toc-text">HTTP报文可以分为请求报文和响应报文两种。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E8%B5%B7%E5%A7%8B%E8%A1%8C"><span class="toc-number">1.1.</span> <span class="toc-text">1. 起始行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%A6%96%E9%83%A8"><span class="toc-number">1.2.</span> <span class="toc-text">2. 首部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%BB%E4%BD%93"><span class="toc-number">1.3.</span> <span class="toc-text">3. 主体</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&text=http报文组成部分"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&is_video=false&description=http报文组成部分"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=http报文组成部分&body=Check out this article: http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&title=http报文组成部分"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&name=http报文组成部分&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/11/17/http%E6%8A%A5%E6%96%87/&t=http报文组成部分"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2020
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
