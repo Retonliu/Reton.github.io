@@ -29,9 +29,9 @@ drop table student
 例. delete from student
 
 ### 4. 修改表的定义 
-    1. 添加表的属性，例. alter table student add name varchar(20)  
-    其中A是要添加的属性名，D是A的域。 新添加的属性值中的所有元组均为空
-    2. 删除表的属性(没有得到所有的数据库系统的支持)，例. alter table student drop name
+1. 添加表的属性，例. alter table student add name varchar(20)  
+其中A是要添加的属性名，D是A的域。 新添加的属性值中的所有元组均为空
+2. 删除表的属性(没有得到所有的数据库系统的支持)，例. alter table student drop name
 
 ## DML
 *提供增删改查功能*
@@ -41,25 +41,29 @@ drop table student
 	from instructor, teachers
     where dept_name = ‘Comp. Sci.'  and salary > 80000
 
-#### select
+#### 1.select
 + 因为SQL允许元组值重复，所以可以使用distinct去重  
 + 可以使用关键字all指定不删去重复项  
 + 对于select后面的每个属性值，可以使用加减乘除运算，比如要取出每一个count的一半，可以写为count/2
-+ 使用as可以重命名。
-#### from
++ 使用as可以重命名。  
+
+#### 2.from    
 + from中的,表示两个表的笛卡尔积
-+ natural join 实现自然连接，自然连接会把两个表中具有相同属性且属性值相同元组连接为一项。自然连接在连接多个表的时候可能会把具有相同值但是不相关属性给连接起来的风险。
-#### where
++ natural join 实现自然连接，自然连接会把两个表中具有相同属性且属性值相同元组连接为一项。自然连接在连接多个表的时候可能会把具有相同值但是不相关属性给连接起来的风险。  
+
+#### 3.where  
 + where中的条件可以使用and, or和not来连接
 + 可以通过类似如下语句：where section.course_id = course.course_id,来实现section表和course表关于course_id的连接
 + like关键字加上 %或者_,%匹配任意字符串，_匹配任意字符
-+ order by 排序， 例. order by name desc(降序), order by name(默认升序，asc)
 + between and 选择区间
 + 解构 例. where (instructor.ID, dept_name) = (teaches.ID, ’Biology’);
 + null, 例. where name is null。任何关于null的比较都返回unknown。
-+ 在where中，如果某个值是unknown会被当作false。 is unknown判断是不是known
++ 在where中，如果某个值是unknown会被当作false。 is unknown判断是不是known    
 
-#### 集合操作
+#### 4.order by  
++ order by 排序， 例. order by name desc(降序), order by name(默认升序，asc)   
+
+#### 5.集合操作
 1. (select course_id from section where sem = ‘Fall’ and year = 2009) union(select course_id from section where sem = ‘Spring’ and year = 2010)
 2. (select course_id from section where sem = ‘Fall’ and year = 2009) intersect(select course_id from section where sem = ‘Spring’ and year = 2010)
 3. (select course_id from section where sem = ‘Fall’ and year = 2009) except(select course_id from section where sem = ‘Spring’ and year = 2010)
@@ -104,7 +108,8 @@ delete from instructor where dept_name= ’Finance’;
 ## 分组查询
 
 ### 1. group by
-+ 分组查询中，select的属性必须是分组的属性
++ 分组查询中，select的属性必须是分组的属性  
+
 ### 2. having
 只能跟group by一起出现。
 **where作用于分组之前，having作用于分组之后**
