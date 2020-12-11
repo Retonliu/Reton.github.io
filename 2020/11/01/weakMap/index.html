@@ -6,15 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。  weakMap可以很好的解决内存泄漏的问题。因为weakMap对于存储在其里面的对象是弱引用的，weakMap不会影响到垃圾回收机制的引用计数。所以如果weakMap的键名消失之后，键值对会自动被垃圾回收机制消去，所以也就不存在内存泄漏的事情。由于DOM树经常会发生变更，所以weakMap很适合用来存">
+    <meta name="description" content="内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。weakMap只能使用对象作为键，这样可以保证weakMap对键的弱引用。联想一下，如果可以使用原始值作为键，那么当前原始值没了之后，使用另一个相等的原始值（复制），仍然可以获得值，而引用就不一样了，引用没了之后，就直接消失，也没办法再赋值&#x2F;创建一个一样的引用（键）。weakMap可以很好的解决内存泄漏的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="weakMap如何解决内存泄漏">
 <meta property="og:url" content="http://yoursite.com/2020/11/01/weakMap/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。  weakMap可以很好的解决内存泄漏的问题。因为weakMap对于存储在其里面的对象是弱引用的，weakMap不会影响到垃圾回收机制的引用计数。所以如果weakMap的键名消失之后，键值对会自动被垃圾回收机制消去，所以也就不存在内存泄漏的事情。由于DOM树经常会发生变更，所以weakMap很适合用来存">
+<meta property="og:description" content="内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。weakMap只能使用对象作为键，这样可以保证weakMap对键的弱引用。联想一下，如果可以使用原始值作为键，那么当前原始值没了之后，使用另一个相等的原始值（复制），仍然可以获得值，而引用就不一样了，引用没了之后，就直接消失，也没办法再赋值&#x2F;创建一个一样的引用（键）。weakMap可以很好的解决内存泄漏的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-11-01T12:07:00.000Z">
-<meta property="article:modified_time" content="2020-11-01T15:14:51.955Z">
+<meta property="article:modified_time" content="2020-12-03T14:39:43.677Z">
 <meta property="article:author" content="Reton">
 <meta property="article:tag" content="javascript">
 <meta property="article:tag" content="前端">
@@ -155,9 +155,8 @@
 
   <div class="content" itemprop="articleBody">
     <blockquote>
-<p>内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。</p>
+<p>内存泄漏是指某部分内存被占用，使用完之后却没有正确释放掉，导致后续程序都无法使用这一块内存。<br>weakMap只能使用对象作为键，这样可以保证weakMap对键的弱引用。联想一下，如果可以使用原始值作为键，那么当前原始值没了之后，使用另一个相等的原始值（复制），仍然可以获得值，而引用就不一样了，引用没了之后，就直接消失，也没办法再赋值/创建一个一样的引用（键）。<br>weakMap可以很好的解决内存泄漏的问题。因为weakMap对于存储在其里面的对象是弱引用的，weakMap不会影响到垃圾回收机制的引用计数。所以如果weakMap的<strong>键名</strong>消失之后，键值对会自动被垃圾回收机制消去，所以也就不存在内存泄漏的事情。由于DOM树经常会发生变更，所以weakMap很适合用来存放DOM节点。一旦DOM节点消失，存放在weakMap中的对应引用也就跟着消失，无需手动删除引用来触发垃圾回收机制。如果使用的是普通的map(其他非weak数据结构同理）。例如：</p>
 </blockquote>
-<p>weakMap可以很好的解决内存泄漏的问题。因为weakMap对于存储在其里面的对象是弱引用的，weakMap不会影响到垃圾回收机制的引用计数。所以如果weakMap的<strong>键名</strong>消失之后，键值对会自动被垃圾回收机制消去，所以也就不存在内存泄漏的事情。由于DOM树经常会发生变更，所以weakMap很适合用来存放DOM节点。一旦DOM节点消失，存放在weakMap中的对应引用也就跟着消失，无需手动删除引用来触发垃圾回收机制。如果使用的是普通的map(其他非weak数据结构同理）。例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const m &#x3D; new Map();</span><br><span class="line">const node &#x3D; document.getElementById(&quot;header&quot;);</span><br><span class="line">m.set(node, &#39;head&#39;);</span><br><span class="line">如果node节点从dom树中被删除的话，那么就需要手动来删除这个引用。</span><br><span class="line">m.delete(node); &#x2F;&#x2F;删除引用</span><br></pre></td></tr></table></figure>
 <p>如果没有delte引用，那么会导致内存泄漏。<br>而weakMap可以省去delete这个步骤，引用会随着dom消失自动删去。</p>
 
