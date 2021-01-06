@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="思路：看到题目想到了两个比较直接的思路  层次遍历为一个数组，然后利用父节点与子节点下标的关系，循环进行判断 中序遍历为一个数组，然后使用分支的做法，每一个节点左边一定小于当前节点，右边一定大于当前节点，  但是这两种做法，都是先生成一个数组，然后后续进行判断，经验告诉我，这样做是不可取的，正确的做法应该是一边遍历，一遍进行判断的。 其实第二个做法还没有想的足够彻底，因为这道题涉及到的树是搜索树，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="累加树">
+<meta property="og:url" content="http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="思路：看到题目想到了两个比较直接的思路  层次遍历为一个数组，然后利用父节点与子节点下标的关系，循环进行判断 中序遍历为一个数组，然后使用分支的做法，每一个节点左边一定小于当前节点，右边一定大于当前节点，  但是这两种做法，都是先生成一个数组，然后后续进行判断，经验告诉我，这样做是不可取的，正确的做法应该是一边遍历，一遍进行判断的。 其实第二个做法还没有想的足够彻底，因为这道题涉及到的树是搜索树，">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-23T08:08:00.000Z">
+<meta property="article:modified_time" content="2020-12-24T05:19:34.265Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="树">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>累加树</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2020/12/24/%E6%A0%91%E7%9A%84%E8%B7%AF%E5%BE%84%E5%92%8C/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2020/12/23/%E4%BA%8C%E5%8F%89%E6%A0%91%E5%B1%95%E5%BC%80%E4%B8%BA%E9%93%BE%E8%A1%A8/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&text=累加树"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&is_video=false&description=累加树"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=累加树&body=Check out this article: http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&name=累加树&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&t=累加树"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        累加树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-12-23T08:08:00.000Z" itemprop="datePublished">2020-12-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E6%A0%91/" rel="tag">树</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>思路：看到题目想到了两个比较直接的思路</p>
+<ol>
+<li>层次遍历为一个数组，然后利用父节点与子节点下标的关系，循环进行判断</li>
+<li>中序遍历为一个数组，然后使用分支的做法，每一个节点左边一定小于当前节点，右边一定大于当前节点，</li>
+</ol>
+<p><em>但是这两种做法，都是先生成一个数组，然后后续进行判断，经验告诉我，这样做是不可取的，正确的做法应该是一边遍历，一遍进行判断的。</em></p>
+<p>其实第二个做法还没有想的足够彻底，因为这道题涉及到的树是搜索树，搜索树的中序遍历是有更明显的特性，即它的中序遍历数组是一个升序的数组。所以可以利用这一点来完成，当然重要的一点就是我上面说的，要在递归的同时做判断。所以要判断一棵树是不是升序的，就判断每次遍历到一个节点的时候，就判断它是否比上个节点的值大，这变相完成了升序的判断，为什么能这么做呢，因为对于每一个节点，由于是中序遍历的，所以它的上一个节点肯定是它的左节点，左节点如果符合搜索树的特征，那它一定是要小于当前节点的，所以每一次都把遍历的上一个节点给记录下来，在递归的过程中进行判断。 </p>
+<p><strong>根据递归的两个重要的思维方式</strong>：</p>
+<ol>
+<li>在整体逻辑上进行思考。所以在第一层，即还没有递归的时候，整体上，就是<strong>判断左子树是否满足条件</strong>，然后<strong>判断当前节点是否满足条件</strong>，注意当前节点是否满足条件要在递归左子树之后，因为是中序遍历，所以要递归左子树之后才能获取当前节点的前一个节点。 然后<strong>判断右子树是否满足条件</strong>，<strong>返回的值就是左右两个子树的结果</strong>。</li>
+<li>最小的问题，最小的问题就是递归到节点为空时候开始返回，即一开始一直往左边递归，递归到最左最下的节点的左子树为空，返回一个true，判断最左最下的节点是否满足条件，再递归到最左最下的节点的右子树为空（这里假设最左最下节点左右子树均为空），然后就完成了最小子问题的判断</li>
+</ol>
+<p>代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * Definition for a binary tree node.</span><br><span class="line"> * function TreeNode(val, left, right) &#123;</span><br><span class="line"> *     this.val &#x3D; (val&#x3D;&#x3D;&#x3D;undefined ? 0 : val)</span><br><span class="line"> *     this.left &#x3D; (left&#x3D;&#x3D;&#x3D;undefined ? null : left)</span><br><span class="line"> *     this.right &#x3D; (right&#x3D;&#x3D;&#x3D;undefined ? null : right)</span><br><span class="line"> * &#125;</span><br><span class="line"> *&#x2F;</span><br><span class="line">&#x2F;**</span><br><span class="line"> * @param &#123;TreeNode&#125; root</span><br><span class="line"> * @return &#123;boolean&#125;</span><br><span class="line"> *&#x2F;</span><br><span class="line">var isValidBST &#x3D; function(root) &#123;</span><br><span class="line">    let preVal &#x3D; -Number.MAX_VALUE;</span><br><span class="line">    function dfs(cur) &#123;</span><br><span class="line">        if (cur &#x3D;&#x3D;&#x3D; null) &#123;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        let left &#x3D; dfs(cur.left);</span><br><span class="line"></span><br><span class="line">        if (cur.val &lt;&#x3D; preVal) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        preVal &#x3D; cur.val;</span><br><span class="line"></span><br><span class="line">        let right &#x3D; dfs(cur.right);</span><br><span class="line">        return left &amp;&amp; right;</span><br><span class="line">    &#125;</span><br><span class="line">    return dfs(root);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/判断二叉搜索树.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&text=累加树"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&is_video=false&description=累加树"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=累加树&body=Check out this article: http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&title=累加树"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&name=累加树&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/12/23/%E5%88%A4%E6%96%AD%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/&t=累加树"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="题目地址: https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;queue-reconstruction-by-height&#x2F;solution&#x2F;406gen-ju-shen-gao-zhong-jian-dui-lie-tan-xin-suan&#x2F;贪心算法就是每一步都做出一个局部最优的选择，最终的结果就是全局最优思路： 联系到本题，由于对于每一个元素，会影响到它的k值得就是比它高得元">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据身高重建队列">
+<meta property="og:url" content="http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目地址: https:&#x2F;&#x2F;leetcode-cn.com&#x2F;problems&#x2F;queue-reconstruction-by-height&#x2F;solution&#x2F;406gen-ju-shen-gao-zhong-jian-dui-lie-tan-xin-suan&#x2F;贪心算法就是每一步都做出一个局部最优的选择，最终的结果就是全局最优思路： 联系到本题，由于对于每一个元素，会影响到它的k值得就是比它高得元">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-03T14:44:00.000Z">
+<meta property="article:modified_time" content="2021-01-06T09:02:12.900Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="贪心算法">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>根据身高重建队列</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2020/08/25/%E6%98%BE%E7%A4%BA%E5%99%A8%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&text=根据身高重建队列"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&is_video=false&description=根据身高重建队列"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=根据身高重建队列&body=Check out this article: http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&name=根据身高重建队列&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&t=根据身高重建队列"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        根据身高重建队列
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-01-03T14:44:00.000Z" itemprop="datePublished">2020-01-03</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>, <a class="tag-link-link" href="/reton.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/" rel="tag">贪心算法</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>题目地址: <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/queue-reconstruction-by-height/solution/406gen-ju-shen-gao-zhong-jian-dui-lie-tan-xin-suan/">https://leetcode-cn.com/problems/queue-reconstruction-by-height/solution/406gen-ju-shen-gao-zhong-jian-dui-lie-tan-xin-suan/</a><br><em>贪心算法就是每一步都做出一个局部最优的选择，最终的结果就是全局最优</em><br>思路： 联系到本题，由于对于每一个元素，会影响到它的k值得就是比它高得元素，那么只需要每一次在插入第i个元素得时候，比第i个元素高得元素都已经在队列当中就可以解决这个问题了。即如果比第i个元素都高得元素都在队列当中，那么第i个元素就可以根据它得ki值来决定它插入在哪个位置，比它矮得都与它无关了，因为不会影响到它得k值。所以应该先将原数组进行排序。这就是每一个子问题，总共划分为len个子问题，每一次得到得都是局部最优解，这就是贪心算法，跟之前做过得比较明显得贪心算法还是不太一样得。这道题是比较难看出贪心算法得思路得。</p>
+</blockquote>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * @param &#123;number[][]&#125; people</span><br><span class="line"> * @return &#123;number[][]&#125;</span><br><span class="line"> *&#x2F;</span><br><span class="line">var reconstructQueue &#x3D; function(people) &#123;</span><br><span class="line">    let res &#x3D; [];</span><br><span class="line">    people.sort((v1, v2) &#x3D;&gt; &#123;</span><br><span class="line">        if (v1[0] &#x3D;&#x3D;&#x3D; v2[0]) &#123;</span><br><span class="line">            return v1[1] - v2[1];</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            return v2[0] - v1[0];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    res.push(people[0]);</span><br><span class="line">    for (let i &#x3D; 1, len &#x3D; people.length; i &lt; len; i++) &#123;</span><br><span class="line">        res.splice(people[i][1], 0, people[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    return res;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/身高排列.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&text=根据身高重建队列"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&is_video=false&description=根据身高重建队列"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=根据身高重建队列&body=Check out this article: http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&title=根据身高重建队列"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&name=根据身高重建队列&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2020/01/03/%E8%BA%AB%E9%AB%98%E6%8E%92%E5%88%97/&t=根据身高重建队列"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
