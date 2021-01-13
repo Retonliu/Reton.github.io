@@ -10,3 +10,6 @@ join的时候如果加上natural关键字，则会把相同的属性（连接起
     2. right join(right outer join): 与left outer join 相反
     3. full outer join: 不管左右两边是否匹配，都要保留下来。不匹配的属性置为null
 + inner join: 只取两个表的交集，即左右两边不存在匹配的则去掉
+
+left join 用法: A left join B on A.x = B.x
+full outer join 用法: A full outer join B using(x)
