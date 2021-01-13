@@ -56,7 +56,7 @@ Materialized Views： 将虚拟存在的视图实际存储起来。但是不会�
     2. 删除方法:
     drop index index_name on table 
     > 添加约束
-        例. alter table tableNmae add constraint primary key(id)  
+        例. alter table borrowed add constraint fk1 foreign key (isbn) references to book(isbn);
 
     > 删除约束
         alter table tableNmae drop constraint constraintNmae
