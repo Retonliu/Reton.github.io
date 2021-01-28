@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="关系 等价关系： R是非空集合上的关系，且R满足自反性，对称性，传递性 偏序关系： R是非空集合上的关系，且R满足自反性，反对称性，传递性 等价类： 设R是非空集合A上的等价关系，x是集合A中的元素， 所有与x有R关系的元素组成的集合叫做x的等价类，记作[x]R 关系的复合： 即找出当前关系的传递性得到的关系 闭包：有时我们需要𝑅具有某种性质，可通过关系的闭包运算， 在𝑅中添加最少的有序对构成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="离散结构概念">
+<meta property="og:url" content="http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关系 等价关系： R是非空集合上的关系，且R满足自反性，对称性，传递性 偏序关系： R是非空集合上的关系，且R满足自反性，反对称性，传递性 等价类： 设R是非空集合A上的等价关系，x是集合A中的元素， 所有与x有R关系的元素组成的集合叫做x的等价类，记作[x]R 关系的复合： 即找出当前关系的传递性得到的关系 闭包：有时我们需要𝑅具有某种性质，可通过关系的闭包运算， 在𝑅中添加最少的有序对构成">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/8.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/1.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/5.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/6.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/7.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/4.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/2.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/3.png">
+<meta property="article:published_time" content="2021-01-11T15:40:00.000Z">
+<meta property="article:modified_time" content="2021-01-21T12:16:55.820Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="离散结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/8.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>离散结构概念</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&text=离散结构概念"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&is_video=false&description=离散结构概念"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=离散结构概念&body=Check out this article: http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&name=离散结构概念&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&t=离散结构概念"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6"><span class="toc-number">2.</span> <span class="toc-text">组合数学</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%91"><span class="toc-number">4.</span> <span class="toc-text">树</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        离散结构概念
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-11T15:40:00.000Z" itemprop="datePublished">2021-01-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84/" rel="tag">离散结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h1><ul>
+<li>等价关系： R是非空集合上的关系，且R满足自反性，对称性，传递性</li>
+<li>偏序关系： R是非空集合上的关系，且R满足自反性，<strong>反对称性</strong>，传递性</li>
+<li>等价类： 设R是非空集合A上的等价关系，x是集合A中的元素， 所有与x有R关系的元素组成的集合叫做x的等价类，记作[x]R</li>
+<li>关系的复合： 即找出当前关系的传递性得到的关系</li>
+<li>闭包：有时我们需要𝑅具有某种性质，可通过关系的闭包运算， 在𝑅中添加最少的有序对构成新关系𝑅’，使𝑅’具有所需的<br>性质。</li>
+</ul>
+<h1 id="组合数学"><a href="#组合数学" class="headerlink" title="组合数学"></a>组合数学</h1><ol>
+<li>概念</li>
+</ol>
+<ul>
+<li>C(n,r)/二项式系数: n个不同元素的r组合数</li>
+<li>P(n,r): n个不同元素的r排列数</li>
+<li>排列： 从总数当中抽取出指定数量，<strong>抽取出来的</strong>这几个物品的不同顺序要区分开来</li>
+<li>组合：从总数当中抽取出指定数量，<strong>抽取出来的</strong>这几个物品不管是什么顺序都算同一种  </li>
+</ul>
+<p><strong>注意，以上的排列组合都是每一个元素已经被假定只能被拿一次，因为拿了一次之后就没有了</strong></p>
+<ul>
+<li>C(n, r) = C(n, n-r) 普通组合</li>
+<li><strong>C(n − 1 + r, r)</strong> = C(n − 1 + r, n −1) 重复组合</li>
+<li>容斥原理  </li>
+</ul>
+<p><strong>懂得求左边的并和算出右边的交，活学活用，同时注意奇数个的都是加，偶数个的都是减</strong><br>A∪B∪C = A + B + C - |A ∩ B| - |A ∩ C| - |B ∩ C| + |A ∩ B ∩ C|<br>2. 普通排列题目<br>在进入竞赛的100个不同的人中有多少种方法选出一个一等奖得主、一个 二等奖得主和一个三等奖得主?<br>由于是普通的组合的考虑范围，一个人只能被抽取到一次，即拿了一等奖不可以拿其他奖。<br>所以 P(100, 3)=100·99·98=970 200</p>
+<ol start="3">
+<li><p>重复排列组合题目</p>
+</li>
+<li><p>1 在2的基础上，一个人可以拿多个奖的话（仅仅是假设）<br>则为100的三次方即1000 000  </p>
+</li>
+<li><p>2 <img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/8.png">  </p>
+</li>
+<li><p>方程解问题之不要求非负整数解<br>方程<br>x1 + x2 + x3 =11  有多少个解?其中x1，x2 和x3是非负整数<br>C(3+11-1, 11)  </p>
+</li>
+<li><p>对每个元素有范围限制例如对5题进行如下限制：<br>满足x1≥1、x2≥2且x3≥3的整数时：<br>C(3+5-1, 5),即把右边的结果11-(1+2+3)=5  </p>
+</li>
+<li><p>方程解要求是正整数解的时候<br>满足等式 x1 + x2 + x3 + x4 = 8 的正整数解的个数有______：<br>定义新变量yi=xi-1，再用yi重写等式。<br>C(4+4-1,4)  </p>
+</li>
+<li><p>相同物体不同箱子<br>用重复组合的方法  </p>
+</li>
+<li><p>相同物体相同箱子<br>枚举所有可能的方案</p>
+</li>
+<li><p>不同物体不同箱子<br>列一串普通组合然后乘起来  </p>
+</li>
+</ol>
+<h1 id="图"><a href="#图" class="headerlink" title="图"></a>图</h1><ol>
+<li>概念<br>重要定理：</li>
+</ol>
+<ul>
+<li>握手定理： 图的度数总和等于边数的两倍，因为一条边可以提供两个顶点的度</li>
+<li>简单图： 不含平行边，不含环</li>
+<li>基本通路： 从某个顶点到另一个顶点的点和边均没有重复</li>
+<li>简单通路： 从某个顶点到另一个顶点的边没有重复，但是点有重复</li>
+<li>连通图： 任意两结点之间都有一条通路</li>
+<li>非连通图： 不符合连通图的定义的图</li>
+<li>单向连通图： 图任意两个节点至少从一个节点到另一个节点是可达的</li>
+<li><strong>强连通图</strong>： 图任意两个节点间是相互可达的（跟单向连同做对比）</li>
+<li><strong>弱连通图</strong>： 图在略去有向边的方向后得到的无向图是连通的</li>
+<li>有向连通图：具有单向连通、强连通、弱连通中的任意一种连通性的有向图</li>
+<li><strong>欧拉通路</strong>： 通过G中所有边一次且仅一次的通路</li>
+<li><strong>欧拉回路</strong>： 通过G中所有边一次且仅一次的回路</li>
+<li>半欧拉图： 具有欧拉通路但不具有欧拉回路的图</li>
+<li><strong>欧拉图</strong>：具有欧拉回路的图</li>
+</ul>
+<ul>
+<li><p><strong>哈密顿通路</strong>： 通过G中所有结点一次且仅一次的通路</p>
+</li>
+<li><p><strong>哈密顿回路</strong>： 通过G中所有结点一次且仅一次的回路</p>
+</li>
+<li><p>半哈密顿图： 具有欧拉通路但不具有欧拉回路的图</p>
+</li>
+<li><p><strong>哈密顿图</strong>：具有欧拉回路的图</p>
+</li>
+<li><p>完全图：<br>每对不同顶点之间都恰 有一条边的简单图<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/1.png"></p>
+</li>
+<li><p>圈图：<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/5.png"></p>
+</li>
+<li><p>轮图：<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/6.png"></p>
+</li>
+<li><p>立方图：<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/7.png"></p>
+</li>
+<li><p>二分图：<br>把图的顶点分成两个非相交子集，使得每条边都连<br>接一个子集中的顶点与另一个子集中的顶点。例如，表示村民<br>之间的婚姻关系的图，其中用顶点表示每个人，用边表示婚姻</p>
+</li>
+<li><p>平面图： 除顶点外任意两条边都不相交</p>
+</li>
+</ul>
+<ol start="2">
+<li><p><strong>求通路的方法</strong><br>画出图对应的矩阵，<strong>a[i][j]代表第i个节点到达第j个节点有多少条直连的边</strong>如果是要长度为1的通路，则矩阵的系数为1，长度为n，系数为n</p>
+</li>
+<li><p>1 可达矩阵即为所有系数矩阵（即存在任意长度的路线则p[i][j]为1，否则为0）。</p>
+</li>
+<li><p><strong>最短路径算法</strong><br>迪特杰斯拉算法，首先从起点开始，起点到起点是最近的，所以当前集合加上起点。给起点画圈标记。<br>for：</p>
+<ol>
+<li>寻找当前结点的相邻节点，计算从当前结点到相邻结点的距离</li>
+<li>选取距离中最小的，画圈标记，并加入集合</li>
+<li>把最近一个画圈的作为当前节点，重复1直到到达目标节点</li>
+</ol>
+</li>
+<li><p>判断无向连通图是否为欧拉图  </p>
+</li>
+</ol>
+<p>G中所有结点度数是偶数</p>
+<ol start="5">
+<li>判断无向连通图是否为半欧拉图  </li>
+</ol>
+<p>G中只有两个奇度结点</p>
+<ol start="6">
+<li>判断有向连通图是否为欧拉图  </li>
+</ol>
+<p>每个节点的入度 = 出度</p>
+<ol start="7">
+<li>判断有向连通图是否为半欧拉图  </li>
+</ol>
+<p>G中只有两个奇度结点，其中一个结点入度比出度大1，另一个结点入度比出度小1，其余结点入读和出度相等</p>
+<ol start="8">
+<li>判断是否为哈密顿图</li>
+<li>1 若有度为1的节点则不是，因为不满足回路</li>
+</ol>
+<p>以下均为充分条件，即能判断出有哈密顿回路，但是不满足也不能说明没有<br>7.2  如果G是有n(n³3)个顶点的简单图，且G中每个顶点 的度都至少为n/2，则G有哈密顿回路<br>7.3 如果G是有n(n³3)个顶点的简单图，且对于G中每一对 不相邻的顶点u和v，都有deg(u)+deg(v)³n，则G有哈密顿回路。</p>
+<ol start="9">
+<li><p>根据度数序列判断是否可以成为一个简单图<br>图的度数等于边数的两倍，度数和不为偶数肯定不是简单图。剩下的用Havel算法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 对序列从大到小进行排序。</span><br><span class="line">2. 设最大的度数为t,把最大的度数置0,然后把最大度数后(不包括自己)的  t个度数  分别减1(意思就是把度数最大的点与后几个点进行连接)</span><br><span class="line">3. 如果序列中出现了负数,证明无法构成。如果序列全部变为0,证明能构成,跳出循环.前两点不出现，就跳回第一步！</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>欧拉公式计算平面图<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/4.png"></p>
+</li>
+<li><p>判定是否为二分图<br>一个简单图是二分图，当且仅当能够对图中的每个顶点赋予 两种不同的颜色，并使得没有两个相邻的顶点被赋予相同的颜色。 </p>
+</li>
+<li><p>判断同构<br>有时说明两个图不同构并不困难。如果能找到某个属性，两个图中只有<br>一个图具有这个属性，但该属性应该在同构时保持，就可以说这两个图 不同构。这种在图的同构中保持的属性称为图形不变量。</p>
+</li>
+</ol>
+<h1 id="树"><a href="#树" class="headerlink" title="树"></a>树</h1><ul>
+<li>无向树： 连通且无回路的无向图</li>
+</ul>
+<p>做题：</p>
+<ol>
+<li>数中结点树等于边的数目加一 联合 握手定理可以求出各种算数</li>
+<li>如何求出最小生成树<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/2.png"><ol>
+<li>避圈法</li>
+<li>破圈法，按顺序去掉最大的权值边</li>
+</ol>
+</li>
+<li>哈夫曼算法如何构造最优树<br><img src="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/3.png"></li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/离散结构概念.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6"><span class="toc-number">2.</span> <span class="toc-text">组合数学</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%BE"><span class="toc-number">3.</span> <span class="toc-text">图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%91"><span class="toc-number">4.</span> <span class="toc-text">树</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&text=离散结构概念"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&is_video=false&description=离散结构概念"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=离散结构概念&body=Check out this article: http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&title=离散结构概念"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&name=离散结构概念&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/&t=离散结构概念"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

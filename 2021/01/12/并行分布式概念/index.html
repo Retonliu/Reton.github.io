@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="概述1.分布和并行的区别： 并行：是在同一台机器上的，机器是多核处理器的，可以把问题并行化进行编程 分布：多台机器之间，使用网络连接的方式，构成一个整体，对外以整体提供服务  2.并行和并发的区别： 并行：系统支持两个任务同时执行。比如边吃饭边打电话 并发：系统支持两个任务同时存在，具有处理多个任务的能力，不一定要同时处理。比如吃饭吃到一半，停下来打电话，打完电话之后继续吃饭。并行是并发的一个子集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并行分布式概念">
+<meta property="og:url" content="http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述1.分布和并行的区别： 并行：是在同一台机器上的，机器是多核处理器的，可以把问题并行化进行编程 分布：多台机器之间，使用网络连接的方式，构成一个整体，对外以整体提供服务  2.并行和并发的区别： 并行：系统支持两个任务同时执行。比如边吃饭边打电话 并发：系统支持两个任务同时存在，具有处理多个任务的能力，不一定要同时处理。比如吃饭吃到一半，停下来打电话，打完电话之后继续吃饭。并行是并发的一个子集">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/1.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/2.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/3.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/4.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step1.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step2.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/5.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step3.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step4.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/pool.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/state.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/pc.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/first.jpg">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/second.jpg">
+<meta property="article:published_time" content="2021-01-12T01:17:00.000Z">
+<meta property="article:modified_time" content="2021-01-12T14:44:12.675Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="并行分布式">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>并行分布式概念</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/17/%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&text=并行分布式概念"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&is_video=false&description=并行分布式概念"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=并行分布式概念&body=Check out this article: http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&name=并行分布式概念&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&t=并行分布式概念"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E5%B8%83%E5%92%8C%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">1.分布和并行的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2.并行和并发的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3.进程和线程的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%A7%82%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">4.并发编程中的两种观点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E7%9A%84%E6%A0%B8%E5%BF%83"><span class="toc-number">1.5.</span> <span class="toc-text">5. 并行计算的核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.6.</span> <span class="toc-text">6. 并行编程的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%9F%BA%E4%BA%8E%E7%BA%BF%E7%A8%8B%E5%8C%96%E6%96%B9%E6%B3%95%E5%AD%A6"><span class="toc-number">1.7.</span> <span class="toc-text">7.基于线程化方法学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E7%A1%AC%E4%BB%B6%E5%92%8C%E5%B9%B6%E8%A1%8C%E8%BD%AF%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">并行硬件和并行软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8EFlynn%E5%88%86%E7%B1%BB%E6%B3%95%E7%9A%84%E5%88%92%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">1. 基于Flynn分类法的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-MIMD%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%92%E5%88%86"><span class="toc-number">2.2.</span> <span class="toc-text">2. MIMD的进一步划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BA%A6%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">3.度量</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%91%E6%80%A7%E8%AE%BE%E8%AE%A1%E7%A9%BA%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text">寻找并发性设计空间</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A5%E9%AA%A4%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%91%E6%80%A7%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%92%E5%88%86%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">1. 并行编程的第一个步骤寻找并发性的进一步划分：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3"><span class="toc-number">3.2.</span> <span class="toc-text">2. 任务分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3"><span class="toc-number">3.3.</span> <span class="toc-text">3. 数据分解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">算法结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">支持结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="toc-number">5.1.</span> <span class="toc-text">1. 程序结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">2. 数据结构模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%BA%E5%88%B6%E8%AE%BE%E8%AE%A1%E7%A9%BA%E9%97%B4"><span class="toc-number">6.</span> <span class="toc-text">机制设计空间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%B8%E5%85%B3"><span class="toc-number">7.</span> <span class="toc-text">实验相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F"><span class="toc-number">7.1.</span> <span class="toc-text">1. 生命游戏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Pi%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">7.2.</span> <span class="toc-text">2. Pi的计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%97%A5%E5%BF%97%E6%8C%96%E6%8E%98"><span class="toc-number">7.3.</span> <span class="toc-text">3. 日志挖掘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">7.4.</span> <span class="toc-text">4. 线程相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%AF%E5%90%A6%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">7.4.1.</span> <span class="toc-text">1. 是否使用线程池的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">7.4.2.</span> <span class="toc-text">2. 线程的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">7.4.3.</span> <span class="toc-text">3. 线程的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F"><span class="toc-number">7.4.4.</span> <span class="toc-text">4. 线程安全访问共享变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%B4%BE%E7%94%9F%E8%81%9A%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.5.</span> <span class="toc-text">5. 主从模式和派生聚合模式的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E5%9B%BE%E8%A7%A3"><span class="toc-number">7.6.</span> <span class="toc-text">6. 生产者消费者模型图解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BE%8B%E5%AD%90%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91MQ"><span class="toc-number">7.7.</span> <span class="toc-text">7. 生产者消费者的实现例子——————阿里云MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%A0%B9%E6%8D%AE%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%A1%8D%E7%94%9F%E5%87%BA%E6%9D%A5%E7%9A%84%E7%9B%B8%E5%85%B3%E5%B9%B6%E8%A1%8C%E5%8C%96%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">7.8.</span> <span class="toc-text">9. 根据生产者-消费者模型衍生出来的相关并行化解决方案</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        并行分布式概念
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-12T01:17:00.000Z" itemprop="datePublished">2021-01-12</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F/" rel="tag">并行分布式</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="1-分布和并行的区别："><a href="#1-分布和并行的区别：" class="headerlink" title="1.分布和并行的区别："></a>1.分布和并行的区别：</h2><ul>
+<li>并行：是在同一台机器上的，机器是多核处理器的，可以把问题并行化进行编程</li>
+<li>分布：多台机器之间，使用网络连接的方式，构成一个整体，对外以整体提供服务</li>
+</ul>
+<h2 id="2-并行和并发的区别："><a href="#2-并行和并发的区别：" class="headerlink" title="2.并行和并发的区别："></a>2.并行和并发的区别：</h2><ul>
+<li>并行：系统支持两个任务同时执行。比如边吃饭边打电话</li>
+<li>并发：系统支持两个任务同时存在，具有处理多个任务的能力，不一定要同时处理。比如吃饭吃到一半，停下来打电话，打完电话之后继续吃饭。<br>并行是并发的一个子集</li>
+</ul>
+<h2 id="3-进程和线程的区别："><a href="#3-进程和线程的区别：" class="headerlink" title="3.进程和线程的区别："></a>3.进程和线程的区别：</h2><ul>
+<li>进程：资源分配的最小单位。系统中正在运行的应用程序就是一个进程。每个进程都有独立的代码和数据空间。</li>
+<li>线程： CPU调度的最小单位。同一类线程共享代码和数据控件，每个线程都有自己独立的运行栈和程序计数器。<br>操作系统可以同时运行多个进程，一个进程中可以同时执行多个线程。</li>
+</ul>
+<h2 id="4-并发编程中的两种观点"><a href="#4-并发编程中的两种观点" class="headerlink" title="4.并发编程中的两种观点"></a>4.并发编程中的两种观点</h2><ol>
+<li>消息传递（Message-Passing）编程。没有任何共享状态，所有同步和通信都是通过交换消息完成的。</li>
+<li>分布式内存（distributed-memory）编程。通过读取/写入共享内存块进行通信，共享内存块受信号量/锁等的保护。</li>
+</ol>
+<h2 id="5-并行计算的核心"><a href="#5-并行计算的核心" class="headerlink" title="5. 并行计算的核心"></a>5. 并行计算的核心</h2><p>并行计算的核心是指计算机能够以任何顺序来执行的独立计算。<br>并行计算需要考虑以下几点：</p>
+<ol>
+<li>把并发工作分配到多个线程上，需要调用一些实现了线程化机制的库函数，这些函数将增加开销。 （java的thread类，run方法，线程池等方法）</li>
+<li>存储冲突或数据竞争 （多线程要访问/修改的相同变量可能需要使用信号量/锁等来保护）</li>
+<li>线程同步 （当有一个线程在对内存进行操作的时候，其他线程都不可以对这个内存地址进行操作。）</li>
+</ol>
+<h2 id="6-并行编程的步骤"><a href="#6-并行编程的步骤" class="headerlink" title="6. 并行编程的步骤"></a>6. 并行编程的步骤</h2><ol>
+<li>寻找并发性 （数据/任务划分）</li>
+<li>算法结构 </li>
+<li>支持结构</li>
+<li>实现机制</li>
+</ol>
+<h2 id="7-基于线程化方法学"><a href="#7-基于线程化方法学" class="headerlink" title="7.基于线程化方法学"></a>7.基于线程化方法学</h2><ol>
+<li>分析</li>
+<li>设计与实现</li>
+<li>测试正确性</li>
+<li>性能优化</li>
+</ol>
+<h1 id="并行硬件和并行软件"><a href="#并行硬件和并行软件" class="headerlink" title="并行硬件和并行软件"></a>并行硬件和并行软件</h1><h2 id="1-基于Flynn分类法的划分"><a href="#1-基于Flynn分类法的划分" class="headerlink" title="1. 基于Flynn分类法的划分"></a>1. 基于Flynn分类法的划分</h2><p>Flynn分类法，是基于指令流和数据流的数量对计算机进行分类的方法。</p>
+<ol>
+<li>单指令单数据流（single instruction single data stream）SISD:SISD机器是一种传统的串行计算机，不支持任何并行计算。在某个时钟周期内，CPU只能处理一个数据流</li>
+<li>单指令多数据流（single instruction multiple data stream）SIMD： 对多个数据执行相同的指令从而实现在多个数据流上的操作。可以实现数据的并行性。例如同时执行1 + 1和2 + 2</li>
+</ol>
+<ul>
+<li>缺点： <ol>
+<li>全部ALUs必须执行相同指令或者等待</li>
+<li>在经典的设计中，他们也必须同步操作</li>
+<li>ALUs没有指令存储。</li>
+<li>适用于大型数据并行问题上，处理其他并行 问题并不优秀</li>
+</ol>
+</li>
+<li>SIMD运用的领域： <ol>
+<li>向量处理系统。可以对不同的数据并行执行相同的操作</li>
+<li>（图像处理）GPUS的着色函数的功能是隐式并行的，他们可以被应用到图形流的多个元素，GPU可以使用SIMD并行来优化算法，<em>不是纯粹的SIMD系统</em>。</li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li>多指令流单数据流（multiple instruction single data stream）MISD： 比较少见，这种冗余多用于容错系统。</li>
+<li>多指令多数据流（multiple instruction multiple data stream）MIMD： 类似于多个SISD系统，常见的例子是多处理器计算机。</li>
+</ol>
+<h2 id="2-MIMD的进一步划分"><a href="#2-MIMD的进一步划分" class="headerlink" title="2. MIMD的进一步划分"></a>2. MIMD的进一步划分</h2><ol>
+<li><p>MIMD的基本架构<br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/1.png"></p>
+</li>
+<li><p>MIMD的分类</p>
+<ol>
+<li><p>共享内存<br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/2.png">  </p>
+<blockquote>
+<p>   定义：<br>一组自治的处理器通过互联网络与内存系统<br>相连接，每个处理器能访问每个内存区域<br>每个处理器都可以访问每个存储单元<br>处理器通过访问共享的数据结构来隐式通信  </p>
+</blockquote>
+</li>
+<li><p>UMA多核系统<br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/3.png">  </p>
+<blockquote>
+<p>  每个核访问内存中的任何一个区域的时间相同  </p>
+</blockquote>
+</li>
+<li><p>分布式内存<br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/4.png"></p>
+<blockquote>
+<p>  集群<br> 商品化系统组成<br> 通过商品化网络互连<br> 节点 通过网络互联的独立计算单元</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="3-度量"><a href="#3-度量" class="headerlink" title="3.度量"></a>3.度量</h2><blockquote>
+<p>  Tparallel是并行运行时间<br>    Tserial是串行运行时间<br>    p是处理器的核心数目<br>    S是加速比<br>公式： </p>
+</blockquote>
+<ol>
+<li>加速比<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T_&#123;parallel&#125; &#x3D; T_&#123;serial&#125; &#x2F;p</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S&#x3D;T_&#123;serial&#125; &#x2F; T_&#123;parallel&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>效率</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">E&#x3D;S&#x2F;p&#x3D;&#123;(T_&#123;serial&#125; &#x2F; T_&#123;parallel&#125;)&#125;&#x2F;p</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<ol start="3">
+<li>并行开销<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T_&#123;parallel&#125;&#x3D;T_&#123;serial&#125;&#x2F;p+T_&#123;overhead&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h1 id="寻找并发性设计空间"><a href="#寻找并发性设计空间" class="headerlink" title="寻找并发性设计空间"></a>寻找并发性设计空间</h1><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step1.png"></p>
+<h2 id="1-并行编程的第一个步骤寻找并发性的进一步划分："><a href="#1-并行编程的第一个步骤寻找并发性的进一步划分：" class="headerlink" title="1. 并行编程的第一个步骤寻找并发性的进一步划分："></a>1. 并行编程的第一个步骤寻找并发性的进一步划分：</h2><ol>
+<li>分解： 任务分解和数据分解</li>
+<li>依赖分析： 任务分组，任务排序，数据共存</li>
+<li>设计评估</li>
+</ol>
+<h2 id="2-任务分解"><a href="#2-任务分解" class="headerlink" title="2. 任务分解"></a>2. 任务分解</h2><p>计算被分解为一组独立的任务，多个线程可以用任意顺序执行这些任务  <strong>对计算密集的代码分解，由串行变为并行</strong></p>
+<p>例子. 以园艺工作举例，任务分解会建议园丁按工作本身的属性分配任务：如果两个园丁到达一个客户家，一个修剪草坪，另一个铲除杂草。修剪草坪和铲除杂草是两个被分开的功能</p>
+<h2 id="3-数据分解"><a href="#3-数据分解" class="headerlink" title="3. 数据分解"></a>3. 数据分解</h2><p>适合问题中计算密集部分是围绕着一个大型数据结构的管理而组织的，相似的操作应用于数据结构的不同部分，这样可以相对独立的操作数据结构中的不同部分<br><strong>核心是数据块的形状和数据的交互方法</strong><br>应用程序需要处理一个大型数据集，并且可以对数据集中的每个元素进行独计算<br>例子. 如果园丁应用数据分解来分解他们的任务，他们两个会同时修剪一半的草坪，然后两个人分别铲除一半的杂草</p>
+<h1 id="算法结构"><a href="#算法结构" class="headerlink" title="算法结构"></a>算法结构</h1><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step2.png"></p>
+<ul>
+<li>评价<ol>
+<li>效率</li>
+<li>简单性</li>
+<li>可移植性</li>
+<li>可扩展性</li>
+</ol>
+</li>
+<li>注意<ol>
+<li>效率与可移植性冲突</li>
+<li>效率与简单性冲突</li>
+</ol>
+</li>
+<li>算法结构决策树<br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/5.png"></li>
+</ul>
+<ol>
+<li>任务并行模式<br>定义：把问题分解为一个能够并发执行的任务集合,高效的挖掘这种并发性<br>任务并行的三个元素：<ol>
+<li>任务和他们的定义方式</li>
+<li>任务间的依赖性</li>
+<li>调度（任务怎样分配到UE）<br>例子. 类似于任务分解，园丁。早起的时候，一边刷牙，一边烧水。<br>任务规划的要求：<ol>
+<li>任务的数据至少与UE的数目一样多，越 多越好，确保调度时有很大灵活性</li>
+<li>与各个任务相关联的计算量必须足够多， 以此来抵消与任务管理和处理任何依赖 性相关的开销（粒度）(说简单点就是如果计算量不够大，反而线程之间的开销影响了程序的效率)</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>分治策略：<br>问题被划分为许多较小的子问题，独立求解每一个子问题，并将所有的子问题解决方案合并为整个问题的解决方案，而求解整个问题</li>
+</ol>
+<ul>
+<li>特点：任务的递归安排</li>
+</ul>
+<ol start="3">
+<li>几何分解模式：<br>围绕着一个已经分解为多个同时可更新的“块”的数据结构的算法模式<br>类似于数据分解</li>
+<li>流水线模式：<br>CPU指令流水</li>
+<li>基于事件的协作模式：<br>一些问题可以非常自然的表示为一个关于半独立实体的集合，这些半独立实体以一种不规则的方式交互</li>
+</ol>
+<h1 id="支持结构"><a href="#支持结构" class="headerlink" title="支持结构"></a>支持结构</h1><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step3.png"></p>
+<h2 id="1-程序结构"><a href="#1-程序结构" class="headerlink" title="1. 程序结构"></a>1. 程序结构</h2><ol>
+<li>SPMD（单程序多数据）</li>
+</ol>
+<ul>
+<li>在SPMD程序中，所有UE并行执行同一个程序（单程序），但每个UE都拥有自己的私有数据集（多数据）</li>
+</ul>
+<ol start="2">
+<li>主从模式</li>
+</ol>
+<ul>
+<li>定义：主进程为从进程建立一个工作池和一个任务包。所有从进程并发执行，每个从进程迭代的从任务包中移除一个任务并处理它，直到所有任务都处理完毕或到达某些终止条件为止。</li>
+<li>实现方法：<br>  （平时实验使用的方法）<ol>
+<li>主线程中new新的子线程</li>
+<li>使用线程池</li>
+</ol>
+</li>
+</ul>
+<ol start="3">
+<li>派生/聚合<br>一个主UE派生出多个子UE，这些子UE并行完成全部工作的某一部分。通常派生UE处于等待状态，指导所有子UE完成任务和执行聚合操作。<strong>和主从模式的区别在于：派生聚合下，当前代的子任务无需完全做完才开始迭代下一代，根据子任务的完成进度可以不断派生。主从模式则一轮结束</strong><h2 id="2-数据结构模式"><a href="#2-数据结构模式" class="headerlink" title="2. 数据结构模式"></a>2. 数据结构模式</h2><blockquote>
+<ol>
+<li>共享数据<br>定义抽象数据类型，实现一种合理的并发控制协议，一次执行一个操作。简单地说就是实现了原子性和可见性的变量。</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<p><em>例如共享数据库</em></p>
+<blockquote>
+<ol start="2">
+<li>共享队列<br>使用“线程安全”实现，即使并发执行的多个UE共同使用时，该实现也能保证正确。<br>RocketMQ，生产者消费者模型实验</li>
+<li>分布式数组<br>一维或多维数组，被划分为多个子数组，并在进程或线程间进行分配</li>
+</ol>
+</blockquote>
+<h1 id="机制设计空间"><a href="#机制设计空间" class="headerlink" title="机制设计空间"></a>机制设计空间</h1><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/step4.png"></p>
+<ol>
+<li>UE管理<br>创建、销毁和管理并行计算中使用的进程与线程</li>
+<li>同步<br>对不同UE中的事件强制约定某种顺序，确保当UE集合访问共享资源时，不论如何调度UE，程序都能正确执行</li>
+<li>通信<br>在UE之间交换信息<ol>
+<li>消息传递<br> <strong>消息传输是双边的</strong>(socket)</li>
+<li>集合通信<br>两个以上UE参与通信事件时，该事件称为集合通信操作:</li>
+</ol>
+<ul>
+<li>广播：发送单条消息给所有UE</li>
+<li>栅栏：程序中的同步点，所有UE都必须到达该点，然后才能继续向后执行</li>
+<li>归约：获得一个对象集合，每个对象映射到一个UE，操作把它们组合为位于一个UE的单个对象，或组合它们并将结果广播到每个UE上</li>
+</ul>
+<ol start="3">
+<li>其他通信构造</li>
+</ol>
+</li>
+</ol>
+<h1 id="实验相关"><a href="#实验相关" class="headerlink" title="实验相关"></a>实验相关</h1><h2 id="1-生命游戏"><a href="#1-生命游戏" class="headerlink" title="1. 生命游戏"></a>1. 生命游戏</h2><ol>
+<li>数据划分<br>以尽量小的交换面积来划分。以2块为例子。<br>对两个块并行的根据上一代计算出下一代的情况，放在新数组里面。两个子线程都计算完毕之后，合并起来就是一个新的数组。</li>
+</ol>
+<p><strong>边界的特殊处理，由于划分的两个块边界的更新需要用到另一个块的数据，以左边块为例子，左边块的最右边一列更新的时候，需要用到右边块最左边的一列。所以其实在划分的时候，是划分给左边块的范围加上右边块的最左边一列，这样就可以更新左边块的所有列。当更新完之后，右边块也更新完了，这个时候，左边块从右边快那边获取多余的那一列的最新状态即交换数据。然后继续下一轮更新</strong><br>2. 任务划分<br>对于每一个细胞的状态需要更新的时候，需要判断多个条件才能是否存活，所以可以把每一个条件的判断作为一个子线程</p>
+<h2 id="2-Pi的计算"><a href="#2-Pi的计算" class="headerlink" title="2. Pi的计算"></a>2. Pi的计算</h2><ol>
+<li>数据划分<br>对于泰勒展开式，按照来划分，当两个线程的时候就分母每次加4，4个线程的时候就分母每次加8。</li>
+<li>任务划分<br>在计算泰勒公式的当前元素的时候，要用到几个步骤，可以把这几个步骤变为多个任务。<h2 id="3-日志挖掘"><a href="#3-日志挖掘" class="headerlink" title="3. 日志挖掘"></a>3. 日志挖掘</h2></li>
+<li>任务划分<br>把大文件分按照日期分为多个小文件，然后创建对应数目的子线程并行读入这几个小文件到一个统一的List当中。</li>
+</ol>
+<p><strong>数据预处理就是在读入到list当中的过程中，按照，将每一行分割为一个字符串数组。</strong></p>
+<h2 id="4-线程相关知识"><a href="#4-线程相关知识" class="headerlink" title="4. 线程相关知识"></a>4. 线程相关知识</h2><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/pool.png"><br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/state.png"></p>
+<h3 id="1-是否使用线程池的对比"><a href="#1-是否使用线程池的对比" class="headerlink" title="1. 是否使用线程池的对比"></a>1. 是否使用线程池的对比</h3><ol>
+<li>对于生命游戏由于需要多轮进行迭代，如果不使用线程池那么需要频繁的创建销毁线程，效率很低，所以使用线程池可以对子线程循环利用。</li>
+<li>计算Pi的时候，由于使用都是那几个子线程，且子线程只需要start一次，所以不用创建线程池降低空间使用。<h3 id="2-线程的创建"><a href="#2-线程的创建" class="headerlink" title="2. 线程的创建"></a>2. 线程的创建</h3>可以使用new一个继承Thread类的子类的方法来创建子线程。<h3 id="3-线程的使用"><a href="#3-线程的使用" class="headerlink" title="3. 线程的使用"></a>3. 线程的使用</h3>子类里面实现run方法。主线程通过调用子线程的start方法来使得子线程跑起来<h3 id="4-线程安全访问共享变量"><a href="#4-线程安全访问共享变量" class="headerlink" title="4. 线程安全访问共享变量"></a>4. 线程安全访问共享变量</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">global Var</span><br><span class="line">lock &#x3D; new Lock()</span><br><span class="line">Thread:</span><br><span class="line">    while(True):</span><br><span class="line">        if lock.is_alive &#x3D;&#x3D; False:</span><br><span class="line">            lock.Lock()</span><br><span class="line">            #do something fo Var</span><br><span class="line">            lock.unLock()</span><br><span class="line">        else:</span><br><span class="line">            sleep(random)</span><br><span class="line">            break</span><br><span class="line">T1 &#x3D; Thread().start()</span><br><span class="line">T2 &#x3D; Thread().start()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="5-主从模式和派生聚合模式的区别"><a href="#5-主从模式和派生聚合模式的区别" class="headerlink" title="5. 主从模式和派生聚合模式的区别"></a>5. 主从模式和派生聚合模式的区别</h2><ol>
+<li>主从模式，主线程创造子线程，然后子线程执行之后汇总出总的结果</li>
+<li>派生聚合模式就是多个子线程执行之后，聚合，然后再派生多个子线程进行下一次迭代，即类似于多个主从模式叠加在一起。</li>
+</ol>
+<p>生命游戏就是一个派生聚合模式的例子，几个子线程（派生）不断进行迭代，然后交换（聚合）<br>计算Pi就是一个主从模式的例子，主线程创建了几个子线程（从），子线程计算所有结果之后汇总得出最终的pi值。</p>
+<h2 id="6-生产者消费者模型图解"><a href="#6-生产者消费者模型图解" class="headerlink" title="6. 生产者消费者模型图解"></a>6. 生产者消费者模型图解</h2><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/pc.png"><br>生产者： 负责生产数据的模块<br>消费者： 负责处理数据的模块<br>缓冲区： 生产者和消费者的中介。生产作者把数据放入缓冲区，消费者从缓冲区中取出数据。</p>
+<h2 id="7-生产者消费者的实现例子——————阿里云MQ"><a href="#7-生产者消费者的实现例子——————阿里云MQ" class="headerlink" title="7. 生产者消费者的实现例子——————阿里云MQ"></a>7. 生产者消费者的实现例子——————阿里云MQ</h2><ul>
+<li>Topic：消息主题，一级消息类型，通过Topic对消息进行分类</li>
+<li>生产者：消息标签，二级消息类型，用来进一步区分某个Topic下的消息分类</li>
+<li>消费者：消息消费者，也称为消息订阅者，负责接收并消费消息。可分为两类：<ol>
+<li>Push Consumer：消息由消息队列RocketMQ版推送至Consumer。（被动消费者）</li>
+<li>Pull Consumer：该类Consumer主动从消息队列RocketMQ版拉取消息。（主动消费者）</li>
+</ol>
+</li>
+<li>生产者：消息生产者，也称为消息发布者，负责生产并发送消息</li>
+<li>Tag：消息标签，二级消息类型，用来进一步区分某个Topic下的消息分类</li>
+<li>消息（message）：消息队列中信息传递的载体</li>
+<li>Group: 一类Producer或Consumer，这类Producer或Consumer通常生产或消费同一类消息，且消息发布或订阅的逻辑一致</li>
+<li>集群消费: 一个Group ID所标识的所有Consumer平均分摊消费消息。例如某个Topic有9条消息，一个Group ID有3个Consumer实例，那么在集群消费模式下每个实例平均分摊，只消费其中的3条消息。</li>
+<li>广播消费：一个Group ID所标识的所有Consumer都会各自消费某条消息一次。例如某个Topic有9条消息，一个Group ID有3个Consumer实例，那么在广播消费模式下每个实例都会各自消费9条消息。</li>
+<li>定时消息：Producer将消息发送到消息队列RocketMQ版服务端，但并不期望这条消息立马投递，而是推迟到在当前时间点之后的某一个时间投递到Consumer进行消费，该消息即定时消息。同理，延时消息也类似的意思</li>
+<li>顺序消息：<ol>
+<li>全局顺序：对于指定的一个Topic，所有消息按照严格的先入先出（FIFO）的顺序进行发布和消费</li>
+<li>分区顺序：对于指定的一个Topic，所有消息根据Sharding Key进行区块分区。同一个分区内的消息按照严格的FIFO顺序进行发布和消费。Sharding Key是顺序消息中用来区分不同分区的关键字段，电商的订单创建，以订单ID作为Sharding Key，那么同一个订单相关的创建订单消息、订单支付消息、订单退款消息、订单物流消息都会按照发布的先后顺序来消费</li>
+</ol>
+</li>
+<li>订阅关系一致： 同一个消费者 Group ID 下所有 Consumer 实例所订阅的 Topic、Group ID、Tag 必须完全一致。</li>
+</ul>
+<h2 id="9-根据生产者-消费者模型衍生出来的相关并行化解决方案"><a href="#9-根据生产者-消费者模型衍生出来的相关并行化解决方案" class="headerlink" title="9. 根据生产者-消费者模型衍生出来的相关并行化解决方案"></a>9. 根据生产者-消费者模型衍生出来的相关并行化解决方案</h2><p><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/first.jpg"><br><img src="/reton.github.io/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/second.jpg"></p>
+<ol>
+<li>同一个进程之间<br>几个类通过队列进行通信</li>
+<li>不同进程之间<br>消费者进程通过socket将信息传输到队列当中，生产者进程通过socket从队列当中取得数据。socket使用的都是本机地址。</li>
+<li>不同机器之间<br>消费者进程通过socket将信息传输到队列当中，生产者进程通过socket从队列当中取得数据。生产者和消费者socket使用的地址是队列所在的ip地址。</li>
+</ol>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/并行分布式概念.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%88%86%E5%B8%83%E5%92%8C%E5%B9%B6%E8%A1%8C%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">1.分布和并行的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%B9%B6%E8%A1%8C%E5%92%8C%E5%B9%B6%E5%8F%91%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">2.并行和并发的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">3.进程和线程的区别：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%B8%A4%E7%A7%8D%E8%A7%82%E7%82%B9"><span class="toc-number">1.4.</span> <span class="toc-text">4.并发编程中的两种观点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%B9%B6%E8%A1%8C%E8%AE%A1%E7%AE%97%E7%9A%84%E6%A0%B8%E5%BF%83"><span class="toc-number">1.5.</span> <span class="toc-text">5. 并行计算的核心</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B%E7%9A%84%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.6.</span> <span class="toc-text">6. 并行编程的步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%9F%BA%E4%BA%8E%E7%BA%BF%E7%A8%8B%E5%8C%96%E6%96%B9%E6%B3%95%E5%AD%A6"><span class="toc-number">1.7.</span> <span class="toc-text">7.基于线程化方法学</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C%E7%A1%AC%E4%BB%B6%E5%92%8C%E5%B9%B6%E8%A1%8C%E8%BD%AF%E4%BB%B6"><span class="toc-number">2.</span> <span class="toc-text">并行硬件和并行软件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E4%BA%8EFlynn%E5%88%86%E7%B1%BB%E6%B3%95%E7%9A%84%E5%88%92%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">1. 基于Flynn分类法的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-MIMD%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%92%E5%88%86"><span class="toc-number">2.2.</span> <span class="toc-text">2. MIMD的进一步划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BA%A6%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">3.度量</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%91%E6%80%A7%E8%AE%BE%E8%AE%A1%E7%A9%BA%E9%97%B4"><span class="toc-number">3.</span> <span class="toc-text">寻找并发性设计空间</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%B9%B6%E8%A1%8C%E7%BC%96%E7%A8%8B%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%AD%A5%E9%AA%A4%E5%AF%BB%E6%89%BE%E5%B9%B6%E5%8F%91%E6%80%A7%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%92%E5%88%86%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">1. 并行编程的第一个步骤寻找并发性的进一步划分：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%BB%BB%E5%8A%A1%E5%88%86%E8%A7%A3"><span class="toc-number">3.2.</span> <span class="toc-text">2. 任务分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%95%B0%E6%8D%AE%E5%88%86%E8%A7%A3"><span class="toc-number">3.3.</span> <span class="toc-text">3. 数据分解</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E7%BB%93%E6%9E%84"><span class="toc-number">4.</span> <span class="toc-text">算法结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%94%AF%E6%8C%81%E7%BB%93%E6%9E%84"><span class="toc-number">5.</span> <span class="toc-text">支持结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="toc-number">5.1.</span> <span class="toc-text">1. 程序结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%A8%A1%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">2. 数据结构模式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%BA%E5%88%B6%E8%AE%BE%E8%AE%A1%E7%A9%BA%E9%97%B4"><span class="toc-number">6.</span> <span class="toc-text">机制设计空间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%B8%E5%85%B3"><span class="toc-number">7.</span> <span class="toc-text">实验相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F"><span class="toc-number">7.1.</span> <span class="toc-text">1. 生命游戏</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Pi%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">7.2.</span> <span class="toc-text">2. Pi的计算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%97%A5%E5%BF%97%E6%8C%96%E6%8E%98"><span class="toc-number">7.3.</span> <span class="toc-text">3. 日志挖掘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="toc-number">7.4.</span> <span class="toc-text">4. 线程相关知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%98%AF%E5%90%A6%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-number">7.4.1.</span> <span class="toc-text">1. 是否使用线程池的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-number">7.4.2.</span> <span class="toc-text">2. 线程的创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">7.4.3.</span> <span class="toc-text">3. 线程的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E5%8F%98%E9%87%8F"><span class="toc-number">7.4.4.</span> <span class="toc-text">4. 线程安全访问共享变量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%BB%E4%BB%8E%E6%A8%A1%E5%BC%8F%E5%92%8C%E6%B4%BE%E7%94%9F%E8%81%9A%E5%90%88%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">7.5.</span> <span class="toc-text">5. 主从模式和派生聚合模式的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E5%9B%BE%E8%A7%A3"><span class="toc-number">7.6.</span> <span class="toc-text">6. 生产者消费者模型图解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E5%AE%9E%E7%8E%B0%E4%BE%8B%E5%AD%90%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E9%98%BF%E9%87%8C%E4%BA%91MQ"><span class="toc-number">7.7.</span> <span class="toc-text">7. 生产者消费者的实现例子——————阿里云MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E6%A0%B9%E6%8D%AE%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E8%A1%8D%E7%94%9F%E5%87%BA%E6%9D%A5%E7%9A%84%E7%9B%B8%E5%85%B3%E5%B9%B6%E8%A1%8C%E5%8C%96%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">7.8.</span> <span class="toc-text">9. 根据生产者-消费者模型衍生出来的相关并行化解决方案</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&text=并行分布式概念"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&is_video=false&description=并行分布式概念"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=并行分布式概念&body=Check out this article: http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&title=并行分布式概念"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&name=并行分布式概念&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/12/%E5%B9%B6%E8%A1%8C%E5%88%86%E5%B8%83%E5%BC%8F%E6%A6%82%E5%BF%B5/&t=并行分布式概念"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

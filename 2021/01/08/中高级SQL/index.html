@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="view目的：视图，以在特定用户的视图中隐藏特定数据。任何不属于概念模型但作为“虚拟关系”对用户可见的关系称为视图，即仅仅是虚拟存在的。视图的表达式中可以引用其他的视图以及自身（递归）。 使用方法：  创建123create view v as     select name    from student; 插入1insert into v values(reton); 插入只允许以下的简单视图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中高级SQL">
+<meta property="og:url" content="http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="view目的：视图，以在特定用户的视图中隐藏特定数据。任何不属于概念模型但作为“虚拟关系”对用户可见的关系称为视图，即仅仅是虚拟存在的。视图的表达式中可以引用其他的视图以及自身（递归）。 使用方法：  创建123create view v as     select name    from student; 插入1insert into v values(reton); 插入只允许以下的简单视图">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-08T07:21:00.000Z">
+<meta property="article:modified_time" content="2021-01-09T05:45:57.555Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>中高级SQL</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/11/%E7%A6%BB%E6%95%A3%E7%BB%93%E6%9E%84%E6%A6%82%E5%BF%B5/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/08/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84join/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&text=中高级SQL"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&is_video=false&description=中高级SQL"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中高级SQL&body=Check out this article: http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&name=中高级SQL&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&t=中高级SQL"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#view"><span class="toc-number">1.</span> <span class="toc-text">view</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transction"><span class="toc-number">2.</span> <span class="toc-text">transction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Integrity-Constraints"><span class="toc-number">4.</span> <span class="toc-text">Integrity Constraints</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">用户自定义类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F"><span class="toc-number">6.</span> <span class="toc-text">用户自定义域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%88%E6%9D%83"><span class="toc-number">7.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#producer"><span class="toc-number">8.</span> <span class="toc-text">producer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#function"><span class="toc-number">9.</span> <span class="toc-text">function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">10.</span> <span class="toc-text">触发器</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        中高级SQL
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-08T07:21:00.000Z" itemprop="datePublished">2021-01-08</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="view"><a href="#view" class="headerlink" title="view"></a>view</h1><p>目的：视图，以在特定用户的视图中隐藏特定数据。任何不属于概念模型但作为“虚拟关系”对用户可见的关系称为视图，即仅仅是虚拟存在的。视图的表达式中可以引用其他的视图以及自身（递归）。</p>
+<p>使用方法：</p>
+<ol>
+<li>创建<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create view v as </span><br><span class="line">    select name</span><br><span class="line">    from student;</span><br></pre></td></tr></table></figure></li>
+<li>插入<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into v values(reton);</span><br></pre></td></tr></table></figure>
+插入只允许以下的简单视图：</li>
+</ol>
+<ul>
+<li>创建的时候，sql语句中from中只跟一个数据库</li>
+<li>创建的时候，select子句中不能包含表达式和聚集函数</li>
+<li>创建的时候，sql语句中没有group by和havaing子句</li>
+<li>没有被select子句列出的属性都没有not null约束</li>
+</ul>
+<ol start="3">
+<li>删除<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop view v;</span><br></pre></td></tr></table></figure>
+Materialized Views： 将虚拟存在的视图实际存储起来。但是不会随着虚拟视图更新而更新，需要手动更新。</li>
+</ol>
+<p><strong>由于视图是虚拟存在的，视图定义保存表达式。在涉及到视图的查询的时候表达式被替换到使用视图的查询中。</strong></p>
+<h1 id="transction"><a href="#transction" class="headerlink" title="transction"></a>transction</h1><ol>
+<li>unit of work</li>
+<li>atomic </li>
+<li>Isolation from concurrent transactions</li>
+<li>begin implicitly，ended by commit work or rollback work</li>
+</ol>
+<h1 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h1><ol>
+<li>创建<br> 例. create table studnet </li>
+<li>删除  </li>
+</ol>
+<h1 id="Integrity-Constraints"><a href="#Integrity-Constraints" class="headerlink" title="Integrity Constraints"></a>Integrity Constraints</h1><p>定义：确保数据库的操作不会导致数据一致性的丢失，防止对数据库的意外损害</p>
+<ol>
+<li><p>not null，在创建数据库的时候使用</p>
+</li>
+<li><p>primary key( A1, A2, …, Am)</p>
+</li>
+<li><p>unique( A1, A2, …, Am),确保写在括号中的属性不会重复</p>
+</li>
+<li><p>check， 例子 check (semester in (’Fall’, ’Winter’, ’Spring’, ’Summer’))。<em>不支持子查询</em></p>
+</li>
+<li><p>foreign key，例子dept_name varchar(20) references department或者foreign key (dept_name) references department。更新的时候需要先更新被参考的表。</p>
+</li>
+<li><p>default,默认值</p>
+</li>
+<li><p>index加速查询,有加index的属性,在查询的时候就不用把整个表的该属性遍历一遍</p>
+<ol>
+<li>创建方法:</li>
+</ol>
+<ul>
+<li>针对单个属性的索引create index index_name on table(attr)</li>
+<li>组合查询: create index index_name on table(attr1, attr2)</li>
+</ul>
+<ol start="2">
+<li><p>删除方法:<br>drop index index_name on table </p>
+<blockquote>
+<p>添加约束<br> 例. alter table borrowed add constraint fk1 foreign key (isbn) references to book(isbn);</p>
+</blockquote>
+<blockquote>
+<p>删除约束<br> alter table tableNmae drop constraint constraintNmae</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="用户自定义类型"><a href="#用户自定义类型" class="headerlink" title="用户自定义类型"></a>用户自定义类型</h1><p>例子. create type Dollars as numeric (12,2) final </p>
+<h1 id="用户自定义域"><a href="#用户自定义域" class="headerlink" title="用户自定义域"></a>用户自定义域</h1><p>例子. create domain person_name char(20) not null<br>用户自定义域和用户自定义类型很像,但是自定义的域添加约束.</p>
+<h1 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h1><ol>
+<li><p>数据库的部分授权形式</p>
+<ol>
+<li>read - allows reading, but not modification of data</li>
+<li>insert - allows insertion of new data, but not modification of existing data.</li>
+<li>update - allows modification, but not deletion of data.</li>
+<li>delete - allows deletion of data  </li>
+</ol>
+</li>
+<li><p>修改数据库模式的授权形式</p>
+<ol>
+<li>Index - allows creation and deletion of indices(index的复数).</li>
+<li>Resources - allows creation of new relations.</li>
+<li>Alteration - allows addition or deletion of attributes in a relation</li>
+<li>Drop - allows deletion of relations</li>
+</ol>
+</li>
+<li><p>用户权限管理</p>
+<ol>
+<li><p>grant 授予  </p>
+<p> 可以授予的权限有:</p>
+<ul>
+<li>select</li>
+<li>insert</li>
+<li>update</li>
+<li>delete</li>
+<li>all privileges</li>
+<li>references privilege //为某个属性设置外键的权利</li>
+<li>with grant option //授予grant的权利,放在语句的最后<br>例. grant user ‘userName’@’hostName’ indentified by ‘passport’; //注册用户<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grant  &#x2F;&#x2F;授权</span><br><span class="line">    select, update</span><br><span class="line">on *.*</span><br><span class="line">to userName@&#39;hostName&#39;;</span><br></pre></td></tr></table></figure>
+授权视图<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create view v as</span><br><span class="line">(sql);</span><br><span class="line">grant select on v to userName</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>revoke 删除权限<br>例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">revoke</span><br><span class="line">    update</span><br><span class="line">on *.* &#x2F;&#x2F;哪些表</span><br><span class="line">from userName@&#39;hostName&#39;;</span><br></pre></td></tr></table></figure>
+<p>删除账户信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop user &#39;userName&#39;@&#39;hostName&#39;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="producer"><a href="#producer" class="headerlink" title="producer"></a>producer</h1><p>producer允许业务逻辑作为存储过程记录在数据库中，一组为了完成特定功能的SQL 语句集</p>
+<ol>
+<li><p>创建<br>第一个参数是输入变量,第二个参数是输出变量<br>例. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create procedure proName(in company varchar(20), out employee int)</span><br><span class="line">begin</span><br><span class="line">    select ..</span><br><span class="line">    from ...</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call proName(param1, @param2);</span><br></pre></td></tr></table></figure></li>
+<li><p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop procedure proName;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="function"><a href="#function" class="headerlink" title="function"></a>function</h1><p>function允许业务逻辑作为存储过程记录在数据库中，一组为了完成特定功能的SQL 语句集 ;存储函数将向调用者返回一个且仅返回一个结果值;函数重载名称相同,参数个数不同</p>
+<ol>
+<li>创建<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create function funName(company_name varchar(20))</span><br><span class="line">returns varchar(20) &#x2F;&#x2F;函数输出的是什么</span><br><span class="line">begin</span><br><span class="line">    declare res varchar(20);</span><br><span class="line">    select city</span><br><span class="line">    from employee</span><br><span class="line">    where employee_name &#x3D; &#39;&#39;</span><br><span class="line">    into res;</span><br><span class="line">    return res;</span><br><span class="line">end;</span><br></pre></td></tr></table></figure></li>
+<li>调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select funName(&#39;xxxxx&#39;);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器是作为数据库修改的副作用由系统自动执行的语句<br>创建触发器<br>例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">create trigger triggerName</span><br><span class="line">after update on works for each row</span><br><span class="line">begin</span><br><span class="line">....</span><br><span class="line">end;</span><br></pre></td></tr></table></figure>
+<p>引用更新前的值:referencing old row as   :  for deletes and updates<br>引用更新后的值:referencing new row as  : for inserts and updates<br>例.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create trigger setnull_trigger before update of takes</span><br><span class="line">referencing new row as nrow</span><br><span class="line">for each row</span><br><span class="line">when (nrow.grade &#x3D; ‘ ‘)</span><br><span class="line">begin atomic</span><br><span class="line">    set nrow.grade &#x3D; null;</span><br><span class="line">end;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/中高级SQL.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#view"><span class="toc-number">1.</span> <span class="toc-text">view</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transction"><span class="toc-number">2.</span> <span class="toc-text">transction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text">模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Integrity-Constraints"><span class="toc-number">4.</span> <span class="toc-text">Integrity Constraints</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">用户自定义类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9F%9F"><span class="toc-number">6.</span> <span class="toc-text">用户自定义域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%88%E6%9D%83"><span class="toc-number">7.</span> <span class="toc-text">授权</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#producer"><span class="toc-number">8.</span> <span class="toc-text">producer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#function"><span class="toc-number">9.</span> <span class="toc-text">function</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">10.</span> <span class="toc-text">触发器</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&text=中高级SQL"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&is_video=false&description=中高级SQL"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中高级SQL&body=Check out this article: http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&title=中高级SQL"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&name=中高级SQL&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/08/%E4%B8%AD%E9%AB%98%E7%BA%A7SQL/&t=中高级SQL"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

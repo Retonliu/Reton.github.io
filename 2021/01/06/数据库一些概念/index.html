@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="super key： 可以用于决定一个实体的属性集合（一个属性或者多个属性） candidate key: 最小的super key primary key：从candidate key当中选择一个作为primary key foreign key: 当前的键必须出现在另一个表中 relationship sets: 两个实体之间的关系集合   entity sets: 实体集合   在ER图当">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库的概念词语">
+<meta property="og:url" content="http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="super key： 可以用于决定一个实体的属性集合（一个属性或者多个属性） candidate key: 最小的super key primary key：从candidate key当中选择一个作为primary key foreign key: 当前的键必须出现在另一个表中 relationship sets: 两个实体之间的关系集合   entity sets: 实体集合   在ER图当">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-06T12:13:00.000Z">
+<meta property="article:modified_time" content="2021-01-10T14:02:00.064Z">
+<meta property="article:author" content="Reton">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/reton.github.io/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/reton.github.io/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/reton.github.io/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>数据库的概念词语</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/reton.github.io/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/reton.github.io/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/08/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84join/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/reton.github.io/2021/01/01/vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&text=数据库的概念词语"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&is_video=false&description=数据库的概念词语"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据库的概念词语&body=Check out this article: http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&name=数据库的概念词语&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&t=数据库的概念词语"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        数据库的概念词语
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-06T12:13:00.000Z" itemprop="datePublished">2021-01-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/reton.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag">数据库</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <ul>
+<li>super key： 可以用于决定一个实体的属性集合（一个属性或者多个属性）</li>
+<li>candidate key: 最小的super key</li>
+<li>primary key：从candidate key当中选择一个作为primary key</li>
+<li>foreign key: 当前的键必须出现在另一个表中</li>
+<li>relationship sets: 两个实体之间的关系集合  </li>
+<li>entity sets: 实体集合  </li>
+<li>在ER图当中： -&gt;表示一<strong>箭头指向的是多一</strong>， ——表示多  </li>
+<li>total participation： entity set中的每个entity至少参与relationship 中的一个relationship set。 连着双线的那个实体就是必须全部参与到relationship当中的。</li>
+<li>weak Entity： 必须依赖于其他实体集。 弱实体集的主键由它所以来的集合的主键加上它自身的属性所合成</li>
+<li>relation schema: 一张表的表头信息所构成的</li>
+<li>relation: 一张表中除了表头剩下的内容。n元组的一个子集</li>
+<li>relation instance: 数据表某个时刻的一个快照</li>
+<li>关系代数：<ol>
+<li>selection: 选择符合条件的元组。σ</li>
+<li>projection： 投影出想要的属性。∏</li>
+<li>natural join: 把两个表当中具有相同值的连接起来(丢弃不匹配的)。 ⋈</li>
+<li>cartesian product: 笛卡尔积。 ✖</li>
+<li>union: 并集。 ∪</li>
+<li>right outer join： 保留右边的。⋈=</li>
+<li>left outer join: 保留所哟左边的。=⋈</li>
+<li>full outer join： 全部保留（左右两边）。=⋈=</li>
+</ol>
+</li>
+<li>联系集的主码由实体集的主码组成。是实体集中多的那一边，两边都是多的时候则都需要使用，两边都是一的时候，则只需要引用一边的主码即可。</li>
+<li>lossy decomposition: 分解无法表达某些重要事实</li>
+<li>lossless decomposition: 分解后仍然可以表达重要的事实</li>
+<li>atomic domain：如果一个域中的所有元素都是不可再分的（如没有composite 属性）</li>
+<li>第一范式：如果关系模式中的所有属性的域都是原子的，则该关系模式属于第一范式</li>
+<li>functional dependency： 超码可以唯一标识整条元组，函数依赖可以唯一表示某些属性（缩小版本的super key）</li>
+<li>closure（闭包）： 能够从给定F集合推导出的所有函数里来的集合。</li>
+<li>BCNF： 难以保持函数依赖，高于第三范式</li>
+<li>第三范式： 最小放宽的BCNF，即在BCNF的基础上变得更宽松，而且分解之后可以保持函数依赖。</li>
+<li>第二范式： 不存在非主属性对候选码的部分依赖</li>
+<li>transction：事务是访问并可能更新各种数据项的程序执行单元</li>
+<li>schedule： 指定并行事务执行指令的时间顺序的指令序列</li>
+</ul>
+
+  </div>
+  <div>
+    <a href="https://github.com/Retonliu/reton.github.io/edit/myblog/source/_posts/数据库一些概念.md" target="__blank">edit</a>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&text=数据库的概念词语"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&is_video=false&description=数据库的概念词语"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据库的概念词语&body=Check out this article: http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&title=数据库的概念词语"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&name=数据库的概念词语&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yoursite.com/2021/01/06/%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5/&t=数据库的概念词语"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Reton
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/reton.github.io/">首页</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://retonliu.github.io/resume/index.html">关于</a></li>
+         
+          <li><a href="/reton.github.io/archives/">归档</a></li>
+         
+          <li><a target="_blank" rel="noopener" href="https://github.com/Retonliu">项目</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/reton.github.io/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/reton.github.io/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/reton.github.io/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/reton.github.io/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/reton.github.io/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"复制到粘贴板!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "复制成功!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/reton.github.io/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
