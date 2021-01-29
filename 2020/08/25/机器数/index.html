@@ -13,21 +13,21 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="#机器数在计算机内部可分为无符号数和有符号数无符号数：没有正负之分，所有的数都是正数有符号数：有正负之分，在符号位用0表示正数，用1表示负数。    无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。比如 如果要存的寄存器是8位的,要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。 有符号">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/2.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/3.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/4.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/5.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/6.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/7.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/8.png">
-<meta property="article:published_time" content="2020-08-25T08:24:00.000Z">
-<meta property="article:modified_time" content="2020-10-02T01:47:28.961Z">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//1.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//2.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//3.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//4.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//5.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//6.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//7.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//8.png">
+<meta property="article:published_time" content="2020-08-25T16:24:00.000Z">
+<meta property="article:modified_time" content="2021-01-29T15:11:42.414Z">
 <meta property="article:author" content="Reton">
 <meta property="article:tag" content="计算机系统">
 <meta property="article:tag" content="计算机组成原理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/.com//1.png">
     
     
         
@@ -142,7 +142,7 @@
       
     <div class="postdate">
       
-        <time datetime="2020-08-25T08:24:00.000Z" itemprop="datePublished">2020-08-25</time>
+        <time datetime="2020-08-25T16:24:00.000Z" itemprop="datePublished">2020-08-25</time>
         
       
     </div>
@@ -164,8 +164,8 @@
   <div class="content" itemprop="articleBody">
     <p>#机器数在计算机内部可分为无符号数和有符号数<br>无符号数：没有正负之分，所有的数都是正数<br>有符号数：有正负之分，在符号位用0表示正数，用1表示负数。  </p>
 <ul>
-<li>无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。<br>比如 如果要存的寄存器是8位的,<img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/1.png"><br>要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。</li>
-<li>有符号数的存储需要在硬件中把位数中的最高位用于表示正负（0，1），<strong>注意符号数是不影响数据绝对值大小的</strong>，其余的位用于表示数的绝对值大小。 平常我们接触的数据又可以分为整数和小数两种方式。所以需要对小数点的位置进行处理。<br>存储小数的时候，小数点表示在符号位的后一位。如下图所示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/2.png"><br>存储整数的时候，小数点放在数值的最后一位。如下图所示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/3.png"></li>
+<li>无符号数在计算机内部的存储情况比较简单，把数据转为二进制格式，按照数据存储的硬件（寄存器或者存储器）的位数来存储。<br>比如 如果要存的寄存器是8位的,<img src="/reton.github.io/.com//1.png"><br>要存的数是4，先把4变为二进制格式：100，然后高位补0，变为00000100，放入寄存器即可。</li>
+<li>有符号数的存储需要在硬件中把位数中的最高位用于表示正负（0，1），<strong>注意符号数是不影响数据绝对值大小的</strong>，其余的位用于表示数的绝对值大小。 平常我们接触的数据又可以分为整数和小数两种方式。所以需要对小数点的位置进行处理。<br>存储小数的时候，小数点表示在符号位的后一位。如下图所示：<br><img src="/reton.github.io/.com//2.png"><br>存储整数的时候，小数点放在数值的最后一位。如下图所示：<br><img src="/reton.github.io/.com//3.png"></li>
 <li>*注意实际上在寄存器中是没有专门用一个位数来存储小数点的，这只是一种约定的表示方法**  </li>
 </ul>
 <p>##机器数表示方式</p>
@@ -173,7 +173,7 @@
 <li><p>原码 ：在上面的存储过程种运用到了把符号数值化的方法，也叫做原码表示法。  </p>
 <blockquote>
 <ul>
-<li>小数原码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/4.png"></li>
+<li>小数原码表示：<br><img src="/reton.github.io/.com//4.png"></li>
 </ul>
 </blockquote>
 </li>
@@ -181,7 +181,7 @@
 <blockquote>
 <p>1 - x = 1 - (-0.1010) = 1.1010,也就是在把小数点前面的数改为 1。  </p>
 <ul>
-<li>整数原码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/5.png"></li>
+<li>整数原码表示：<br><img src="/reton.github.io/.com//5.png"></li>
 </ul>
 </blockquote>
 </li>
@@ -192,8 +192,8 @@
 <li><p>补码<br>在讲补码的表达式之前，先来讲一下补码的由来。从时钟的概念来引入，假设现在是0点，那么要到达3点有两种方法，第一种是按照顺时针绕，走3个格即+3，第二种方法按照逆时针绕，走9个格即-9（反方向用减）。所以在这里+3和-9就是等价的。称+3是-9以12为模的补数。一个负数加上“模”就等于它的补数（它们的绝对值之和就等于模数）。补数引入到计算机中就得到了补码的概念，机器数在硬件中的存储也是类似的，存储空间的位数是给定的，比如给定一个8位的寄存器，那么如果要存储的数值超过8位，超出的数位就会丢失，跟时钟一个道理，超过12，超出的就会没了。假设计算-1011和+0101的补码，通过分别加上模数10000可得补数分别为+0101，+0101（高位丢掉），可以看出正数补码等于原码，由此引出一下补码定义：</p>
 <blockquote>
 <ul>
-<li>小数补码：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/6.png"><br>正数补码等于原码。所以看一下负数的补码，若x = -0.1100000, 则其补码为2 + （-0.1100000） = 10.0000000 - 0.1100000 = 1.0100000</li>
-<li>整数补码：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/7.png"><br>正数补码等于原码。看一下负数的补码，若x = -1100，原码为：1,1100则其补码为<br>2^（4+1）+ （-1100） = 100000 - 1100 = 1,0100<br>但是看得出来通过公式来计算补码太过于麻烦。观察求补码的过程可以发现，模数都是一个1后面带着一串0，以上面的例子来说，可以发现100000 - 1100 = 11111 - 1100 + 1， 11111 - 1100的过程可以看出来每一位相减的时候，1减去0等到1， 1减去1等于0, 等于对1100每一位都进行取反，最后再加上1。所以可以总结出求补码的快捷方式:<strong>对于负数的补码，将负数的原码除符号位外其他全部位数取反然后加上一即可得到负数的补码</strong>。  </li>
+<li>小数补码：<br><img src="/reton.github.io/.com//6.png"><br>正数补码等于原码。所以看一下负数的补码，若x = -0.1100000, 则其补码为2 + （-0.1100000） = 10.0000000 - 0.1100000 = 1.0100000</li>
+<li>整数补码：<br><img src="/reton.github.io/.com//7.png"><br>正数补码等于原码。看一下负数的补码，若x = -1100，原码为：1,1100则其补码为<br>2^（4+1）+ （-1100） = 100000 - 1100 = 1,0100<br>但是看得出来通过公式来计算补码太过于麻烦。观察求补码的过程可以发现，模数都是一个1后面带着一串0，以上面的例子来说，可以发现100000 - 1100 = 11111 - 1100 + 1， 11111 - 1100的过程可以看出来每一位相减的时候，1减去0等到1， 1减去1等于0, 等于对1100每一位都进行取反，最后再加上1。所以可以总结出求补码的快捷方式:<strong>对于负数的补码，将负数的原码除符号位外其他全部位数取反然后加上一即可得到负数的补码</strong>。  </li>
 </ul>
 </blockquote>
 </li>
@@ -201,7 +201,7 @@
 <p>*反码</p>
 <blockquote>
 <ul>
-<li>小数反码表示：<br><img src="/reton.github.io/2020/08/25/%E6%9C%BA%E5%99%A8%E6%95%B0/8.png"><br>0的机器数<br>0的机器数是特殊的，+0的原码为0.0000，-0的原码为1.000,而+0和-0的补码均为0.0000.</li>
+<li>小数反码表示：<br><img src="/reton.github.io/.com//8.png"><br>0的机器数<br>0的机器数是特殊的，+0的原码为0.0000，-0的原码为1.000,而+0和-0的补码均为0.0000.</li>
 </ul>
 </blockquote>
 

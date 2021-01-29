@@ -13,21 +13,21 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="TCP三次握手工具： wireshark  使用cmd，ping一下学校的在线教育网址：   获得网址的ip地址，然后在wireshark中过滤：   在浏览器中输入学校的在线教育地址eol.scau.edu.cn 然后在wireshark出现如下连接：  第一次握手。从本地12212端口发送带有SYN的报文，发送到目的服务器的80端口（因为使用的是http连接），序列号seq为394201309">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165220094.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165256338.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165944924.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210127175617540.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173153882.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210127175552582.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173417730.png">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/clip_image002.jpg">
-<meta property="og:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173519629.png">
-<meta property="article:published_time" content="2021-01-27T14:42:00.000Z">
-<meta property="article:modified_time" content="2021-01-28T13:11:03.410Z">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126165220094.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126165256338.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126165944924.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210127175617540.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126173153882.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210127175552582.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126173417730.png">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//clip_image002.jpg">
+<meta property="og:image" content="http://yoursite.com/reton.github.io/.com//image-20210126173519629.png">
+<meta property="article:published_time" content="2021-01-27T22:42:00.000Z">
+<meta property="article:modified_time" content="2021-01-29T15:11:42.390Z">
 <meta property="article:author" content="Reton">
 <meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165220094.png">
+<meta name="twitter:image" content="http://yoursite.com/reton.github.io/.com//image-20210126165220094.png">
     
     
         
@@ -87,6 +87,8 @@
     <span id="actions">
       <ul>
         
+        <li><a class="icon" href="/reton.github.io/2021/01/29/%E5%B2%9B%E5%B1%BF%E6%95%B0%E9%87%8F/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
         
         <li><a class="icon" href="/reton.github.io/2021/01/17/%E4%BB%80%E4%B9%88%E6%98%AF%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
         
@@ -140,7 +142,7 @@
       
     <div class="postdate">
       
-        <time datetime="2021-01-27T14:42:00.000Z" itemprop="datePublished">2021-01-27</time>
+        <time datetime="2021-01-27T22:42:00.000Z" itemprop="datePublished">2021-01-27</time>
         
       
     </div>
@@ -163,27 +165,27 @@
     <h1 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h1><p>工具： wireshark</p>
 <ol>
 <li><p>使用cmd，ping一下学校的在线教育网址：</p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165220094.png" alt="image-20210126165220094"></p>
+<p><img src="/reton.github.io/.com//image-20210126165220094.png" alt="image-20210126165220094"></p>
 </li>
 <li><p>获得网址的ip地址，然后在wireshark中过滤：</p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165256338.png" alt="image-20210126165256338"></p>
+<p><img src="/reton.github.io/.com//image-20210126165256338.png" alt="image-20210126165256338"></p>
 </li>
 <li><p>在浏览器中输入学校的在线教育地址eol.scau.edu.cn</p>
 <p>然后在wireshark出现如下连接：</p>
 <ol>
 <li><p><strong>第一次握手</strong>。从本地12212端口发送带有SYN的报文，发送到目的服务器的80端口（因为使用的是http连接），序列号seq为3942013096。标志为SYN。</p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126165944924.png" alt="image-20210126165944924"></p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210127175617540.png" alt="image-20210127175617540"></p>
+<p><img src="/reton.github.io/.com//image-20210126165944924.png" alt="image-20210126165944924"></p>
+<p><img src="/reton.github.io/.com//image-20210127175617540.png" alt="image-20210127175617540"></p>
 </li>
 <li><p><strong>第二次握手</strong>，紧接着，服务器收到客户端的tcp连接请求之后，发送请求到客户端。从服务器的80端口发送到客户端的12212端口。其中确认号是上一次客户端发送过来的序列号加一即3942013097，序列号seq为2536558822。其中确认号标志位SYN、ACK：</p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173153882.png" alt="image-20210126173153882"></p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210127175552582.png" alt="image-20210127175552582"></p>
+<p><img src="/reton.github.io/.com//image-20210126173153882.png" alt="image-20210126173153882"></p>
+<p><img src="/reton.github.io/.com//image-20210127175552582.png" alt="image-20210127175552582"></p>
 </li>
 <li><p><strong>第三次握手</strong>。客户端收到服务器发送过来的报文之后，从本地12212端口发送数据到服务器80端口，序列号为3942013097，确认号为2536558822+1=2536558823。标志为ACK：</p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173417730.png" alt="image-20210126173417730"></p>
-<p><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/clip_image002.jpg" alt="img"></p>
+<p><img src="/reton.github.io/.com//image-20210126173417730.png" alt="image-20210126173417730"></p>
+<p><img src="/reton.github.io/.com//clip_image002.jpg" alt="img"></p>
 </li>
-<li><p>之后HTTP连接就成功建立起来：<br><img src="/reton.github.io/2021/01/27/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B/image-20210126173519629.png" alt="image-20210126173519629"></p>
+<li><p>之后HTTP连接就成功建立起来：<br><img src="/reton.github.io/.com//image-20210126173519629.png" alt="image-20210126173519629"></p>
 </li>
 </ol>
 </li>
